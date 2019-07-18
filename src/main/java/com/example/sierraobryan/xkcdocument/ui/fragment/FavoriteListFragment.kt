@@ -13,6 +13,9 @@ import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.ui.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.fragment_fravorite.*
 import androidx.appcompat.app.AlertDialog
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_welcome.*
+import kotlinx.android.synthetic.main.layout_error.*
 
 
 class FavoriteListFragment : BaseFragment() {
@@ -35,15 +38,30 @@ class FavoriteListFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
-        viewModel.allFavorites.observe(this, Observer { setUpAdapter(it) })
+        viewModel.allFavorites.observe(this, Observer {
+            if (it.isNotEmpty()) {
+                setUpAdapter(it)
+            } else {
+                setUpError()
+            }
+        })
 
     }
 
     private fun setUpAdapter(list: List<ComicShort>) {
+        favorite_recyclerview.visibility = View.VISIBLE
+        error_layout.visibility = View.GONE
         adapter = FavoriteAdapter(list, { comicShort : ComicShort -> comicItemClicked(comicShort) },
                 { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
         favorite_recyclerview.adapter = adapter
         favorite_recyclerview.layoutManager = LinearLayoutManager(activity)
+    }
+
+    private fun setUpError() {
+        favorite_recyclerview.visibility = View.GONE
+        error_layout.visibility = View.VISIBLE
+        error_text.text = resources.getString(R.string.no_favorites)
+        Picasso.get().load(R.drawable.duty_calls).fit().centerInside().into(error_image)
     }
 
     private fun comicItemClicked(comicShort : ComicShort) {

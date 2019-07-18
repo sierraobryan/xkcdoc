@@ -38,8 +38,7 @@ class SingleComicFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_single_comic, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_single_comic, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -100,13 +99,15 @@ class SingleComicFragment : BaseFragment() {
     }
 
     private fun makeFavorite() {
-        val favoriteComic = ComicShort(comic.comicId, comic.safeTitle)
-        if (!comicLisViewModel.isFavoriteFromId(favoriteComic)) {
-            comicLisViewModel.insert(favoriteComic)
-            favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
-        } else {
-            comicLisViewModel.delete(favoriteComic)
-            favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
+        if (::comic.isInitialized) {
+            val favoriteComic = ComicShort(comic.comicId, comic.safeTitle)
+            if (!comicLisViewModel.isFavoriteFromId(favoriteComic)) {
+                comicLisViewModel.insert(favoriteComic)
+                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+            } else {
+                comicLisViewModel.delete(favoriteComic)
+                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
+            }
         }
     }
 
