@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
         xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
         xkcdViewModel.firstImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
+                xkcdViewModel.numberOfComics = it.body.num
                 title_text.text = it.body.safeTitle
                 home_image.contentDescription = it.body.safeTitle
                 Picasso.get().load(it.body.img).fit().centerInside()

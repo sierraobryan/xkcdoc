@@ -33,7 +33,7 @@ class SingleComicFragment : BaseFragment() {
     private lateinit var xkcdViewModel: XkcdViewModel
     private lateinit var comicLisViewModel: ComicListViewModel
     private lateinit var comic: ComicTag
-    private val NUM_OF_COMICS = 2177
+    private var NUM_OF_COMICS = 2177
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +48,7 @@ class SingleComicFragment : BaseFragment() {
 
         xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
         comicLisViewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+        NUM_OF_COMICS = xkcdViewModel.numberOfComics
 
         val args = this.arguments
         if (args != null) {

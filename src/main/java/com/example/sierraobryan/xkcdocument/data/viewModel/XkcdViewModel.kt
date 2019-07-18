@@ -12,6 +12,7 @@ import com.example.sierraobryan.xkcdocument.network.XkcdApiIClient
 class XkcdViewModel : ViewModel() {
 
     var singleImage: LiveData<ApiResponse<Comic>> = MutableLiveData()
+    var numberOfComics: Int = 2177
 
     val service = XkcdApiIClient.create()
     val repository = XkcdRepository(service)
