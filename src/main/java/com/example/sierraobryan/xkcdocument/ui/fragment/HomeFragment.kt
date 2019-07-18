@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         xkcdViewModel.firstImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
                 title_text.text = it.body.safeTitle
-                Picasso.get().load(it.body.img).fit().into(image as ImageView)
+                Picasso.get().load(it.body.img).fit().centerInside().into(image as ImageView)
             } else {
                 title_text.text = resources.getString(R.string.oops)
                 //  Picasso.get().load(resources.getDrawable(R.drawable.fixing_problems, null)).into(image as ImageView)

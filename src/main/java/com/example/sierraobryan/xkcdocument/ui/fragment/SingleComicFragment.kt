@@ -62,7 +62,7 @@ class SingleComicFragment : BaseFragment() {
                 comic = ComicTag(it.body.num, it.body.safeTitle, "")
                 title_text.text = it.body.safeTitle
                 tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
-                Picasso.get().load(it.body.img).into(image as ImageView)
+                Picasso.get().load(it.body.img).fit().centerInside().into(image as ImageView)
             } else {
                 title_text.text = resources.getString(R.string.oops)
                 Picasso.get().load(R.drawable.fixing_problems).into(image as ImageView)
