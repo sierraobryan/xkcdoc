@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicTag
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.example.sierraobryan.xkcdocument.ui.fragment.FavoriteListFragment
@@ -18,6 +18,8 @@ import com.google.firebase.database.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    private var PATH: String = "comics"
 
     private lateinit var xkcdViewModel: XkcdViewModel
     private lateinit var comicListViewModel: ComicListViewModel
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                comicListViewModel.setComicTagList(dataSnapshot.children.mapNotNull { it.getValue<ComicTag>(ComicTag::class.java) })
+                comicListViewModel.setComicTagList(dataSnapshot.children.mapNotNull { it.getValue<ComicWithTag>(ComicWithTag::class.java) })
 
             }
 
@@ -86,10 +88,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun addTagToDatabase(comicTag: ComicTag) {
-        val key = databaseReference.child("comics").push().key
+    fun addTagToDatabase(comicWithTag: ComicWithTag) {
+        val key = databaseReference.child(PATH).push().key
         key?.let {
-            databaseReference.child("comics").child(System.currentTimeMillis().toString()).setValue(comicTag)
+            databaseReference.child(PATH).child(System.currentTimeMillis().toString()).setValue(comicWithTag)
 
         }
     }

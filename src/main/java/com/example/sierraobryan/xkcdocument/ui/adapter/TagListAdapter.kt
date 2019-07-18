@@ -11,8 +11,6 @@ import kotlinx.android.synthetic.main.row_item_tag.view.*
 class TagListAdapter(val items: List<String>, val clickListener: (String) -> Unit) :
         RecyclerView.Adapter<TagListAdapter.TagViewHolder>(){
 
-    private var listener: View.OnClickListener? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.row_item_tag, parent, false)
         return TagViewHolder(view)
@@ -24,10 +22,6 @@ class TagListAdapter(val items: List<String>, val clickListener: (String) -> Uni
 
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         holder.bind(items.get(position), clickListener)
-    }
-
-    fun setListener(listener: View.OnClickListener) {
-        this.listener = listener
     }
 
     class TagViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

@@ -5,12 +5,12 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import com.example.sierraobryan.xkcdocument.data.dao.FavoriteDao
 import com.example.sierraobryan.xkcdocument.data.database.FavoritesDatabase
-import com.example.sierraobryan.xkcdocument.data.model.FavoriteComic
+import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 
 class FavoritesRepository(application: Application) {
 
     private val dao: FavoriteDao
-    private val data: LiveData<List<FavoriteComic>>
+    private val data: LiveData<List<ComicShort>>
 
     init {
         val db = FavoritesDatabase.getInstance(application)
@@ -18,29 +18,29 @@ class FavoritesRepository(application: Application) {
         data = dao.getAllFavorites()
     }
 
-    fun getAll(): LiveData<List<FavoriteComic>> {
+    fun getAll(): LiveData<List<ComicShort>> {
         return data
     }
 
-    fun insert(favoriteComic: FavoriteComic) {
-        insertAsyncTask(dao).execute(favoriteComic)
+    fun insert(comicShort: ComicShort) {
+        insertAsyncTask(dao).execute(comicShort)
     }
 
-    fun delete(favoriteComic: FavoriteComic) {
-        deleteAsyncTask(dao).execute(favoriteComic)
+    fun delete(comicShort: ComicShort) {
+        deleteAsyncTask(dao).execute(comicShort)
     }
 
     private class insertAsyncTask internal constructor(private val dao: FavoriteDao) :
-            AsyncTask<FavoriteComic, Void, Void>() {
-        override fun doInBackground(vararg params: FavoriteComic): Void? {
+            AsyncTask<ComicShort, Void, Void>() {
+        override fun doInBackground(vararg params: ComicShort): Void? {
             dao.insert(params[0])
             return null
         }
     }
 
     private class deleteAsyncTask internal constructor(private val dao: FavoriteDao) :
-            AsyncTask<FavoriteComic, Void, Void>() {
-        override fun doInBackground(vararg params: FavoriteComic): Void? {
+            AsyncTask<ComicShort, Void, Void>() {
+        override fun doInBackground(vararg params: ComicShort): Void? {
             dao.delete(params[0])
             return null
         }

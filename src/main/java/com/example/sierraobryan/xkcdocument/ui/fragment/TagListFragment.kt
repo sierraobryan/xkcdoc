@@ -24,8 +24,7 @@ class TagListFragment : BaseFragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_browse_tags, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_browse_tags, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

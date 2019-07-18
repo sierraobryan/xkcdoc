@@ -5,18 +5,16 @@ import androidx.collection.ArraySet
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.sierraobryan.xkcdocument.data.model.ComicTag
-import com.example.sierraobryan.xkcdocument.data.model.FavoriteComic
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
+import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import com.example.sierraobryan.xkcdocument.data.repository.FavoritesRepository
-import com.google.android.gms.common.util.Strings
 
 class ComicListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val favoritesRepository : FavoritesRepository
-    internal val allFavorites: LiveData<List<FavoriteComic>>
-    val comic = MutableLiveData<FavoriteComic>()
-    val comicTagList : MutableLiveData<List<ComicTag>> = MutableLiveData()
+    internal val allFavorites: LiveData<List<ComicShort>>
+    val comic = MutableLiveData<ComicShort>()
+    val comicWithTagList : MutableLiveData<List<ComicWithTag>> = MutableLiveData()
     val tagList = MutableLiveData<Set<String>>()
 
     init {
@@ -24,62 +22,62 @@ class ComicListViewModel(application: Application) : AndroidViewModel(applicatio
         allFavorites = favoritesRepository.getAll()
     }
 
-    fun setCurrentId(comic: FavoriteComic) {
-        this.comic.value = comic
+    fun setCurrentId(comicShort: ComicShort) {
+        this.comic.value = comicShort
     }
 
     // favorite functions
-    fun insert(favoriteComic: FavoriteComic) {
-        favoritesRepository.insert(favoriteComic)
+    fun insert(comicShort: ComicShort) {
+        favoritesRepository.insert(comicShort)
     }
 
-    fun delete(favoriteComic: FavoriteComic) {
-        favoritesRepository.delete(favoriteComic)
+    fun delete(comicShort: ComicShort) {
+        favoritesRepository.delete(comicShort)
     }
 
-    fun isFavoriteFromId(comic: FavoriteComic): Boolean {
-        return allFavorites.value!!.contains(comic)
+    fun isFavoriteFromId(comicShort: ComicShort): Boolean {
+        return allFavorites.value!!.contains(comicShort)
     }
 
     // tag functions
-    fun setComicTagList(list: List<ComicTag>) {
-        comicTagList.value = list
+    fun setComicTagList(list: List<ComicWithTag>) {
+        comicWithTagList.value = list
         makeTagList()
     }
 
     private fun makeTagList() {
         val setOfTags = ArraySet<String>()
-        for (comic in comicTagList.value!!) {
+        for (comic in comicWithTagList.value!!) {
             setOfTags.add(comic.tag)
         }
         tagList.value = setOfTags
     }
 
-    private fun getComicsWithTag(tag: String): List<ComicTag> {
-        val comicsWithTag : MutableList<ComicTag> = ArrayList()
-        for (comic in comicTagList.value!!)  {
-            if (tag.equals(comic.tag)) {
-                comicsWithTag.add(comic)
+    private fun getComicsWithTag(tag: String): List<ComicWithTag> {
+        val comicsWithTags : MutableList<ComicWithTag> = ArrayList()
+        for (comic in comicWithTagList.value!!)  {
+            if (tag == comic.tag) {
+                comicsWithTags.add(comic)
             }
         }
-        return comicsWithTag
+        return comicsWithTags
     }
 
     fun getAllTagsforId(comicId: Int) : List<String> {
         val tagsForComic: MutableSet<String> = ArraySet()
-        for (comic in comicTagList.value!!)  {
-            if (comicId.equals(comic.comicId)) {
+        for (comic in comicWithTagList.value!!)  {
+            if (comicId == comic.comicId) {
                 tagsForComic.add(comic.tag)
             }
         }
         return tagsForComic.toList()
     }
 
-    fun getAllComicsForTag(tag: String) : List<ComicTag> {
-        val tagsForComic: MutableSet<ComicTag> = ArraySet()
-        for (comic in comicTagList.value!!)  {
-            if (tag.equals(comic.tag)) {
-                tagsForComic.add(comic)
+    fun getAllComicsForTag(tag: String) : List<ComicShort> {
+        val tagsForComic: MutableSet<ComicShort> = ArraySet()
+        for (comic in comicWithTagList.value!!)  {
+            if (tag == comic.tag) {
+                tagsForComic.add(comic.toComicShort())
             }
         }
         return tagsForComic.toList()
