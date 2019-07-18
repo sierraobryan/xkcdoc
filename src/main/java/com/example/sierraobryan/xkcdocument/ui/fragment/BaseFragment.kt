@@ -8,7 +8,8 @@ open class BaseFragment: Fragment() {
     fun switchFragment(fragment: Fragment) {
         activity!!.supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, fragment)
-                .commitNow()
+                .addToBackStack(null)
+                .commit()
     }
 
     fun removeFragment(fragment: Fragment) {
