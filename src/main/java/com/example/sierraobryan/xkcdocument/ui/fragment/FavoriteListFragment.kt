@@ -14,6 +14,7 @@ import com.example.sierraobryan.xkcdocument.ui.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.fragment_fravorite.*
 import androidx.appcompat.app.AlertDialog
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.layout_error.*
 
@@ -37,6 +38,8 @@ class FavoriteListFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity!!.app_bar_title.text = resources.getString(R.string.favorite)
+
         viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
         viewModel.allFavorites.observe(this, Observer {
             if (it.isNotEmpty()) {

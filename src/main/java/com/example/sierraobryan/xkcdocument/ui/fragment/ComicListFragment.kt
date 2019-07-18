@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 class ComicListFragment : BaseFragment() {
 
@@ -39,6 +40,8 @@ class ComicListFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        activity!!.app_bar_title.text = resources.getString(R.string.comics)
 
         comicTag = this.arguments!!.get("tag") as String
 

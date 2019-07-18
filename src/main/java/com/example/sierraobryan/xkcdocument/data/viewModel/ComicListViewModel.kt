@@ -22,7 +22,7 @@ class ComicListViewModel(application: Application) : AndroidViewModel(applicatio
         allFavorites = favoritesRepository.getAll()
     }
 
-    fun setCurrentId(comicShort: ComicShort) {
+    fun setCurrentComic(comicShort: ComicShort) {
         this.comic.value = comicShort
     }
 
@@ -36,7 +36,10 @@ class ComicListViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun isFavoriteFromId(comicShort: ComicShort): Boolean {
-        return allFavorites.value!!.contains(comicShort)
+        if (!allFavorites.value.isNullOrEmpty()) {
+            return allFavorites.value!!.contains(comicShort)
+        }
+        return false
     }
 
     // tag functions

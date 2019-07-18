@@ -12,6 +12,7 @@ import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_single_comic.*
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.fragment_welcome.title_text
@@ -43,6 +44,7 @@ class SingleComicFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity!!.app_bar_title.text = resources.getString(R.string.comic)
 
         xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
         comicLisViewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
@@ -52,8 +54,7 @@ class SingleComicFragment : BaseFragment() {
         if (args != null) {
             comic = args.get("comic") as ComicShort
             getImage(comic.comicId)
-            comicLisViewModel.setCurrentId(
-                    ComicShort(comic.comicId, comic.safeTitle))
+            comicLisViewModel.setCurrentComic(comic)
         } else {
             getImage(getRandom())
         }
@@ -61,6 +62,7 @@ class SingleComicFragment : BaseFragment() {
         xkcdViewModel.singleImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
                 comic = it.body.toComicShort()
+                comicLisViewModel.setCurrentComic(comic)
                 title_text.text = it.body.safeTitle
                 tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
                 random_image.contentDescription = it.body.safeTitle

@@ -10,6 +10,7 @@ import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.ui.activity.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_tag.*
 
 class AddNewTagFragment : BaseFragment() {
@@ -41,6 +42,7 @@ class AddNewTagFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity!!.app_bar_title.text = resources.getString(R.string.add_tag)
         comic = this.arguments!!.get("comic") as ComicShort
 
         comicLisViewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
