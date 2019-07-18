@@ -12,7 +12,9 @@ import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ApiSuccessResponse
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_single_comic.*
 import kotlinx.android.synthetic.main.fragment_welcome.*
+import kotlinx.android.synthetic.main.fragment_welcome.title_text
 
 class HomeFragment : Fragment() {
     companion object {
@@ -32,15 +34,16 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val image = activity!!.findViewById<View>(R.id.home_image)
         xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
         xkcdViewModel.firstImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
                 title_text.text = it.body.safeTitle
-                Picasso.get().load(it.body.img).fit().centerInside().into(image as ImageView)
+                home_image.contentDescription = it.body.safeTitle
+                Picasso.get().load(it.body.img).into(home_image)
             } else {
                 title_text.text = resources.getString(R.string.oops)
-                //  Picasso.get().load(resources.getDrawable(R.drawable.fixing_problems, null)).into(image as ImageView)
+                Picasso.get().load(R.drawable.fixing_problems).into(home_image)
+                home_image.contentDescription = resources.getString(R.string.computer_problems_image)
 
             }
         })

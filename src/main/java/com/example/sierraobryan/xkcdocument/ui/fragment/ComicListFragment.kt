@@ -35,7 +35,7 @@ class ComicListFragment : BaseFragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_browse_tags, container, false)
+        val view = inflater.inflate(R.layout.fragment_comic_list, container, false)
         return view
     }
 

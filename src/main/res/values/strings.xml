@@ -7,6 +7,7 @@
     <string name="browse">browse</string>
     <string name="add_new_tag">add a new tag</string>
     <string name="oops"> oops, something went wrong!</string>
+    <string name="computer_problems_image">computer problems image</string>
     <string name="loading_tags">&#8230;</string>
     <string name="no_tags">No tags have been added for this image! Add some</string>
     <string name="add">add</string>

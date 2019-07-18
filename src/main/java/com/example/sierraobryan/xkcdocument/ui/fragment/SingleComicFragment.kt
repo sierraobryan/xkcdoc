@@ -14,6 +14,7 @@ import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_single_comic.*
+import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.fragment_welcome.title_text
 
 class SingleComicFragment : BaseFragment() {
@@ -56,22 +57,22 @@ class SingleComicFragment : BaseFragment() {
             getImage(getRandom())
         }
 
-        val image = activity!!.findViewById<View>(R.id.random_image)
         xkcdViewModel.singleImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
                 comic = ComicTag(it.body.num, it.body.safeTitle, "")
                 title_text.text = it.body.safeTitle
                 tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
-                Picasso.get().load(it.body.img).fit().centerInside().into(image as ImageView)
+                random_image.contentDescription = it.body.safeTitle
+                Picasso.get().load(it.body.img).into(random_image)
             } else {
                 title_text.text = resources.getString(R.string.oops)
-                Picasso.get().load(R.drawable.fixing_problems).into(image as ImageView)
-
+                Picasso.get().load(R.drawable.fixing_problems).into(random_image)
+                home_image.contentDescription = resources.getString(R.string.computer_problems_image)
             }
         })
         comicLisViewModel.comicTagList.observe(this, Observer {
             if (::comic.isInitialized) {
-                displayTagList(comicLisViewModel.getAllTagsforId(comic.comicId))
+                tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(comic.comicId))
             }
         })
 
