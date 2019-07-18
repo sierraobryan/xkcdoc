@@ -28,4 +28,5 @@ open class BaseFragment: Fragment() {
         }
         return resources.getString(R.string.no_tags)
     }
+
 }

@@ -39,10 +39,11 @@ class HomeFragment : Fragment() {
             if (it is ApiSuccessResponse) {
                 title_text.text = it.body.safeTitle
                 home_image.contentDescription = it.body.safeTitle
-                Picasso.get().load(it.body.img).into(home_image)
+                Picasso.get().load(it.body.img).fit().centerInside()
+                        .into(home_image)
             } else {
                 title_text.text = resources.getString(R.string.oops)
-                Picasso.get().load(R.drawable.fixing_problems).into(home_image)
+                Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(home_image)
                 home_image.contentDescription = resources.getString(R.string.computer_problems_image)
 
             }
