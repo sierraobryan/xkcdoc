@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ApiSuccessResponse
-import com.example.sierraobryan.xkcdocument.data.model.ComicTag
+import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_single_comic.*
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.fragment_welcome.title_text
@@ -21,10 +21,10 @@ class SingleComicFragment : BaseFragment() {
     companion object {
         fun newInstance() = SingleComicFragment()
 
-        fun newInstance(comicTag: ComicTag) : SingleComicFragment {
+        fun newInstance(comic: ComicShort) : SingleComicFragment {
             val fragment = SingleComicFragment()
             val bundle = Bundle()
-            bundle.putSerializable("comic", comicTag)
+            bundle.putSerializable("comic", comic)
             fragment.arguments = bundle
             return fragment
         }
@@ -32,19 +32,19 @@ class SingleComicFragment : BaseFragment() {
 
     private lateinit var xkcdViewModel: XkcdViewModel
     private lateinit var comicLisViewModel: ComicListViewModel
-    private lateinit var comic: ComicTag
+    private lateinit var comic: ComicShort
     private var NUM_OF_COMICS = 2177
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_single_comic, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_single_comic, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity!!.app_bar_title.text = resources.getString(R.string.comic)
 
         xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
         comicLisViewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
@@ -52,15 +52,17 @@ class SingleComicFragment : BaseFragment() {
 
         val args = this.arguments
         if (args != null) {
-            comic = args.get("comic") as ComicTag
+            comic = args.get("comic") as ComicShort
             getImage(comic.comicId)
+            comicLisViewModel.setCurrentComic(comic)
         } else {
             getImage(getRandom())
         }
 
         xkcdViewModel.singleImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
-                comic = ComicTag(it.body.num, it.body.safeTitle, "")
+                comic = it.body.toComicShort()
+                comicLisViewModel.setCurrentComic(comic)
                 title_text.text = it.body.safeTitle
                 tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
                 random_image.contentDescription = it.body.safeTitle
@@ -71,7 +73,12 @@ class SingleComicFragment : BaseFragment() {
                 home_image.contentDescription = resources.getString(R.string.computer_problems_image)
             }
         })
-        comicLisViewModel.comicTagList.observe(this, Observer {
+        comicLisViewModel.comic.observe(this, Observer {
+            if (comicLisViewModel.isFavoriteFromId(it)) {
+                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+            }
+        })
+        comicLisViewModel.comicWithTagList.observe(this, Observer {
             if (::comic.isInitialized) {
                 tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(comic.comicId))
             }
@@ -83,6 +90,7 @@ class SingleComicFragment : BaseFragment() {
                 switchFragment(AddNewTagFragment.newInstance(comic))
             }
         }
+        favorite_button.setOnClickListener { makeFavorite() }
 
 
     }
@@ -90,6 +98,19 @@ class SingleComicFragment : BaseFragment() {
     private fun getImage(comicId : Int) {
         xkcdViewModel.getSpecificImage(comicId)
 
+    }
+
+    private fun makeFavorite() {
+        if (::comic.isInitialized) {
+            val favoriteComic = ComicShort(comic.comicId, comic.safeTitle)
+            if (!comicLisViewModel.isFavoriteFromId(favoriteComic)) {
+                comicLisViewModel.insert(favoriteComic)
+                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+            } else {
+                comicLisViewModel.delete(favoriteComic)
+                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
+            }
+        }
     }
 
     private fun getRandom() = (Math.random() * NUM_OF_COMICS).toInt()

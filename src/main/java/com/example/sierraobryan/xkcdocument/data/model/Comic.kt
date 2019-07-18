@@ -16,4 +16,7 @@ class Comic(
     val transcript: String,
     val year: String) {
 
+    fun toComicShort() : ComicShort {
+        return ComicShort(this.num, this.safeTitle)
+    }
 }
