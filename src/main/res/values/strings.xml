@@ -12,4 +12,7 @@
     <string name="loading_tags">&#8230;</string>
     <string name="no_tags">No tags have been added for this image! Add some</string>
     <string name="add">add</string>
+    <string name="delete">delete</string>
+    <string name="cancel">cancel</string>
+    <string name="are_you_sure">Are you sure you want to remove this comic from your favorites?</string>
 </resources>

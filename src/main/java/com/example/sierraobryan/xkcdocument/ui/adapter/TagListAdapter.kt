@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sierraobryan.xkcdocument.R
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class TagListAdapter(val items: List<String>, val clickListener: (String) -> Unit) :
+class TagListAdapter(private val items: List<String>,
+                     private val clickListener: (String) -> Unit) :
         RecyclerView.Adapter<TagListAdapter.TagViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {

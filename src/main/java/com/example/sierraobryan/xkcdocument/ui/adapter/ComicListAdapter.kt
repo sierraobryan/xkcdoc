@@ -8,7 +8,8 @@ import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class ComicListAdapter(val items: List<ComicShort>, val clickListener: (ComicShort) -> Unit) :
+class ComicListAdapter(private val items: List<ComicShort>,
+                       private val clickListener: (ComicShort) -> Unit) :
         RecyclerView.Adapter<ComicListAdapter.ComicViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
