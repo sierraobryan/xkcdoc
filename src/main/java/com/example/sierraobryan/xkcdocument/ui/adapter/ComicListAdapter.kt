@@ -1,15 +1,15 @@
 package com.example.sierraobryan.xkcdocument.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicTag
+import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class ComicListAdapter(val items: List<ComicTag>, val clickListener: (ComicTag) -> Unit) :
+class ComicListAdapter(private val items: List<ComicShort>,
+                       private val clickListener: (ComicShort) -> Unit) :
         RecyclerView.Adapter<ComicListAdapter.ComicViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
@@ -27,7 +27,7 @@ class ComicListAdapter(val items: List<ComicTag>, val clickListener: (ComicTag) 
 
 
     class ComicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(comic: ComicTag, clickListener: (ComicTag) -> Unit) {
+        fun bind(comic: ComicShort, clickListener: (ComicShort) -> Unit) {
             itemView.tag_for_list.text = comic.safeTitle
             itemView.setOnClickListener { clickListener(comic) }
         }

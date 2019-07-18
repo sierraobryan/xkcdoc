@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicTag
+import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
-import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.example.sierraobryan.xkcdocument.ui.activity.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_tag.*
 
 class AddNewTagFragment : BaseFragment() {
 
+    var COMIC_KEY = "comic"
+
     companion object {
-        fun newInstance(comic : ComicTag): AddNewTagFragment {
+        fun newInstance(comic : ComicShort): AddNewTagFragment {
             val fragment = AddNewTagFragment()
             val bundle = Bundle()
             bundle.putSerializable("comic", comic)
@@ -27,7 +29,7 @@ class AddNewTagFragment : BaseFragment() {
 
     private lateinit var comicLisViewModel: ComicListViewModel
     private lateinit var listOfTags: List<String>
-    private lateinit var comic: ComicTag
+    private lateinit var comic: ComicShort
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +42,8 @@ class AddNewTagFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        comic = this.arguments!!.get("comic") as ComicTag
+        activity!!.app_bar_title.text = resources.getString(R.string.add_tag)
+        comic = this.arguments!!.get("comic") as ComicShort
 
         comicLisViewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
         listOfTags = comicLisViewModel.getAllTagsforId(comic.comicId)
@@ -52,8 +55,8 @@ class AddNewTagFragment : BaseFragment() {
     }
 
     private fun save() {
-        var tag = new_tag.text.toString()
-        (activity as MainActivity).addTagToDatabase(ComicTag(comic.comicId, comic.safeTitle, tag))
+        val tag = new_tag.text.toString()
+        (activity as MainActivity).addTagToDatabase(ComicWithTag(comic.comicId, comic.safeTitle, tag))
         removeFragment(this)
 
 

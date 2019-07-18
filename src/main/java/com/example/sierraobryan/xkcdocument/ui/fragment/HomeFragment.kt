@@ -12,6 +12,7 @@ import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ApiSuccessResponse
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_single_comic.*
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.fragment_welcome.title_text
@@ -33,6 +34,7 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity!!.app_bar_title.text = resources.getString(R.string.welcome)
 
         xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
         xkcdViewModel.firstImage.observe(this, Observer {

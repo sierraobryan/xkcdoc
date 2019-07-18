@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -46,7 +48,6 @@ dependencies {
 
     // image processing
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     // firebase
@@ -54,6 +55,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:17.0.0'
     implementation 'com.google.firebase:firebase-auth:17.0.0'
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
+
+    // room
+    implementation 'androidx.room:room-runtime:2.0.0'
+    annotationProcessor 'androidx.room:room-compiler:2.0.0'
+    kapt "androidx.room:room-compiler:2.0.0"
 
 
 }

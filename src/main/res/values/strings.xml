@@ -1,14 +1,25 @@
 <resources>
     <string name="app_name">xkcdoc</string>
+    <string name="welcome">Welcome</string>
+    <string name="comic">Comic</string>
+    <string name="favorite">Favorites</string>
+    <string name="comics">Comics </string>
+    <string name="add_tag">Add Tag</string>
     <string name="welcome_banner">welcome to xkcdoc</string>
     <string name="purpose">To help make browsing the romance, sarcasm, math and language a little easier</string>
     <string name="random">random</string>
     <string name="home">home</string>
     <string name="browse">browse</string>
+    <string name="favorites">favorites</string>
     <string name="add_new_tag">add a new tag</string>
     <string name="oops"> oops, something went wrong!</string>
     <string name="computer_problems_image">computer problems image</string>
     <string name="loading_tags">&#8230;</string>
     <string name="no_tags">No tags have been added for this image! Add some</string>
     <string name="add">add</string>
+    <string name="categories">Categories</string>
+    <string name="delete">delete</string>
+    <string name="cancel">cancel</string>
+    <string name="no_favorites">no favorites ):</string>
+    <string name="are_you_sure">Are you sure you want to remove this comic from your favorites?</string>
 </resources>
