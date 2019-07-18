@@ -9,6 +9,7 @@ import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
+import com.example.sierraobryan.xkcdocument.ui.fragment.FavoriteListFragment
 import com.example.sierraobryan.xkcdocument.ui.fragment.HomeFragment
 import com.example.sierraobryan.xkcdocument.ui.fragment.TagListFragment
 import com.example.sierraobryan.xkcdocument.ui.fragment.SingleComicFragment
@@ -46,12 +47,16 @@ class MainActivity : AppCompatActivity() {
                 switchFragment(HomeFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
+            R.id.navigation_random -> {
                 switchFragment(SingleComicFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
+            R.id.navigation_browse -> {
                 switchFragment(TagListFragment.newInstance())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_favorites -> {
+                switchFragment(FavoriteListFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
         }

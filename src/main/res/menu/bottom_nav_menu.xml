@@ -7,13 +7,18 @@
             android:title="@string/home"/>
 
     <item
-            android:id="@+id/navigation_dashboard"
+            android:id="@+id/navigation_random"
             android:icon="@drawable/ic_gesture_black_24dp"
             android:title="@string/random"/>
 
     <item
-            android:id="@+id/navigation_notifications"
+            android:id="@+id/navigation_browse"
             android:icon="@drawable/ic_view_headline_black_24dp"
             android:title="@string/browse"/>
+
+    <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:title="@string/favorites"/>
 
 </menu>
