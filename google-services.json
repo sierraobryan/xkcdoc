@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "764602611748",
+    "firebase_url": "https://xkcdoc.firebaseio.com",
+    "project_id": "xkcdoc",
+    "storage_bucket": "xkcdoc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764602611748:android:6929c68073a22220",
+        "android_client_info": {
+          "package_name": "com.example.sierraobryan.xkcdocument"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764602611748-g2g29ib7r0tgvt5me33iof98tfhqpg53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW_yCRCANanbuYEh7bbnQpF0vpWxnuRao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764602611748-g2g29ib7r0tgvt5me33iof98tfhqpg53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
