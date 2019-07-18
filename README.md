@@ -1,7 +1,7 @@
 # xkcdoc
 
 - general Clean up 
-  - Stop passing around comic tag, use favorite comic for everything, do some renaming because the name sucks, a lot of similar code between those lists and adpapers so combine some of that, 
+  - <s>Stop passing around comic tag</s> (Done in branch), <s>use favorite comic for everything</s> (Done in Branch), do some renaming because the name sucks (Started in Branch), a lot of similar code between those lists and adpapers so combine some of that 
 - app bar things, need some title, maybe a back button, maybe an icon
 - Add search bar to the browse fragment to search for tags 
 - save favorites locally (doneish - not tested : feature/save_favorites)
