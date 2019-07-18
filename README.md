@@ -6,5 +6,5 @@
 - Add search bar to the browse fragment to search for tags 
 - <s>save favorites locally</s> (doneish - not tested : feature/save_favorites)
 - Use PageViewer (2!) in single comic view - now sure how well this will work with fast swiping since it has to make a service call each time
-- Add error screens (ie, no favorites images) 
+- <s>Add error screens (ie, no favorites images)</s> (Done in branch)
 - Add loading screen for images 
