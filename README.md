@@ -19,3 +19,4 @@
 - Might have gone a little heavy handed with the observing 
 - <s>Add error screens (ie, no favorites images)</s>
 - Add loading screen for images 
+- Add go to specific ID functionality
