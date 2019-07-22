@@ -20,3 +20,4 @@
 - <s>Add error screens (ie, no favorites images)</s>
 - Add loading screen for images 
 - Add go to specific ID functionality
+- Fun: add endorsements to tags and then order by endorsements when showing tags 
