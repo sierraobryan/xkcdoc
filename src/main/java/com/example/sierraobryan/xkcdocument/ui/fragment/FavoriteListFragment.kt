@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_fravorite.*
 import androidx.appcompat.app.AlertDialog
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.layout_error.*
 
 
@@ -38,12 +37,13 @@ class FavoriteListFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity!!.app_bar_title.text = resources.getString(R.string.favorite)
+
+        setUpAdapter()
 
         viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
         viewModel.allFavorites.observe(this, Observer {
             if (it.isNotEmpty()) {
-                setUpAdapter(it)
+                adapter.setComics(it)
             } else {
                 setUpError()
             }
@@ -51,10 +51,10 @@ class FavoriteListFragment : BaseFragment() {
 
     }
 
-    private fun setUpAdapter(list: List<ComicShort>) {
+    private fun setUpAdapter() {
         favorite_recyclerview.visibility = View.VISIBLE
         error_layout.visibility = View.GONE
-        adapter = FavoriteAdapter(list, { comicShort : ComicShort -> comicItemClicked(comicShort) },
+        adapter = FavoriteAdapter({ comicShort : ComicShort -> comicItemClicked(comicShort) },
                 { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
         favorite_recyclerview.adapter = adapter
         favorite_recyclerview.layoutManager = LinearLayoutManager(activity)
@@ -90,7 +90,8 @@ class FavoriteListFragment : BaseFragment() {
     }
 
     private fun delete(comic: ComicShort) {
-        viewModel.delete(comic)
+        comic.isFavorite = false
+        viewModel.insert(comic)
     }
 
 }

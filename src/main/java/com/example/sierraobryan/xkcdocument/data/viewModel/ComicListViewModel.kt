@@ -7,19 +7,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.model.ComicShort
-import com.example.sierraobryan.xkcdocument.data.repository.FavoritesRepository
+import com.example.sierraobryan.xkcdocument.data.repository.HistoryRepository
 
 class ComicListViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val favoritesRepository : FavoritesRepository
+    private val historyRepository : HistoryRepository
+    internal val allHistory: LiveData<List<ComicShort>>
     internal val allFavorites: LiveData<List<ComicShort>>
     val comic = MutableLiveData<ComicShort>()
     val comicWithTagList : MutableLiveData<List<ComicWithTag>> = MutableLiveData()
     val tagList = MutableLiveData<Set<String>>()
 
     init {
-        favoritesRepository = FavoritesRepository(application)
-        allFavorites = favoritesRepository.getAll()
+        historyRepository = HistoryRepository(application)
+        allHistory = historyRepository.getAll()
+        allFavorites = historyRepository.getAllFavorites()
     }
 
     fun setCurrentComic(comicShort: ComicShort) {
@@ -28,16 +30,16 @@ class ComicListViewModel(application: Application) : AndroidViewModel(applicatio
 
     // favorite functions
     fun insert(comicShort: ComicShort) {
-        favoritesRepository.insert(comicShort)
+        historyRepository.insert(comicShort)
     }
 
     fun delete(comicShort: ComicShort) {
-        favoritesRepository.delete(comicShort)
+        historyRepository.delete(comicShort)
     }
 
     fun isFavoriteFromId(comicShort: ComicShort): Boolean {
         if (!allFavorites.value.isNullOrEmpty()) {
-            return allFavorites.value!!.contains(comicShort)
+            return allFavorites.value!!.any { comic -> comic.comicId == comicShort.comicId }
         }
         return false
     }

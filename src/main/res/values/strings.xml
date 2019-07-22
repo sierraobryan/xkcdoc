@@ -20,6 +20,9 @@
     <string name="categories">Categories</string>
     <string name="delete">delete</string>
     <string name="cancel">cancel</string>
+    <string name="your_comics">Your Comics</string>
     <string name="no_favorites">no favorites ):</string>
+    <string name="no_history">no browsing history here</string>
+    <string name="date_viewed">Viewed on: </string>
     <string name="are_you_sure">Are you sure you want to remove this comic from your favorites?</string>
 </resources>

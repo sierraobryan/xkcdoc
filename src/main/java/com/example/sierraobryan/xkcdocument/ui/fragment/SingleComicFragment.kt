@@ -54,6 +54,7 @@ class SingleComicFragment : BaseFragment() {
         if (args != null) {
             comic = args.get("comic") as ComicShort
             getImage(comic.comicId)
+            comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic)
             comicLisViewModel.setCurrentComic(comic)
         } else {
             getImage(getRandom())
@@ -62,6 +63,7 @@ class SingleComicFragment : BaseFragment() {
         xkcdViewModel.singleImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
                 comic = it.body.toComicShort()
+                comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic)
                 comicLisViewModel.setCurrentComic(comic)
                 title_text.text = it.body.safeTitle
                 tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
@@ -74,8 +76,11 @@ class SingleComicFragment : BaseFragment() {
             }
         })
         comicLisViewModel.comic.observe(this, Observer {
-            if (comicLisViewModel.isFavoriteFromId(it)) {
-                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+            if (::comic.isInitialized) {
+                if (it.isFavorite) {
+                    favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+                }
+                comicLisViewModel.insert(comic)
             }
         })
         comicLisViewModel.comicWithTagList.observe(this, Observer {
@@ -103,13 +108,13 @@ class SingleComicFragment : BaseFragment() {
     private fun makeFavorite() {
         if (::comic.isInitialized) {
             val favoriteComic = ComicShort(comic.comicId, comic.safeTitle)
-            if (!comicLisViewModel.isFavoriteFromId(favoriteComic)) {
-                comicLisViewModel.insert(favoriteComic)
+            if (!comic.isFavorite) {
+                favoriteComic.isFavorite = true
                 favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
             } else {
-                comicLisViewModel.delete(favoriteComic)
                 favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
             }
+            comicLisViewModel.insert(favoriteComic)
         }
     }
 

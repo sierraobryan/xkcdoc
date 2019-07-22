@@ -4,22 +4,22 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.sierraobryan.xkcdocument.data.dao.FavoriteDao
+import com.example.sierraobryan.xkcdocument.data.dao.HistoryDao
 import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 
-@Database(entities = arrayOf(ComicShort::class), version = 2)
-abstract class FavoritesDatabase : RoomDatabase() {
-    abstract fun favoriteDao() : FavoriteDao
+@Database(entities = arrayOf(ComicShort::class), version = 3)
+abstract class HistoryDatabase : RoomDatabase() {
+    abstract fun favoriteDao() : HistoryDao
 
     companion object {
-        private var INSTANCE : FavoritesDatabase? = null
+        private var INSTANCE : HistoryDatabase? = null
 
-        fun getInstance(context: Context): FavoritesDatabase? {
+        fun getInstance(context: Context): HistoryDatabase? {
             if (INSTANCE == null) {
-                synchronized(FavoritesDatabase::class) {
+                synchronized(HistoryDatabase::class) {
                     INSTANCE = Room.databaseBuilder(
                             context.getApplicationContext(),
-                            FavoritesDatabase::class.java,
+                            HistoryDatabase::class.java,
                             "favorites.db"
                     )
                             .allowMainThreadQueries()
