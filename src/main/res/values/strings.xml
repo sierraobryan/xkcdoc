@@ -24,5 +24,6 @@
     <string name="no_favorites">no favorites ):</string>
     <string name="no_history">no browsing history here</string>
     <string name="date_viewed">Viewed on: </string>
+    <string name="history">history</string>
     <string name="are_you_sure">Are you sure you want to remove this comic from your favorites?</string>
 </resources>
