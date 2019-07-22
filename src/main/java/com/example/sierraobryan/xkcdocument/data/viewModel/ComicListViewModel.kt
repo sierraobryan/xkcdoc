@@ -29,8 +29,8 @@ class ComicListViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     // favorite functions
-    fun insert(comicShort: ComicShort) {
-        historyRepository.insert(comicShort)
+    fun insertOrUpdate(comicShort: ComicShort) {
+        historyRepository.insertOrUpdate(comicShort)
     }
 
     fun delete(comicShort: ComicShort) {

@@ -68,11 +68,7 @@ class SingleComicFragment : BaseFragment() {
 
 
         refresh.setOnClickListener { getImage(getRandom()) }
-        add_tag.setOnClickListener {
-            if (::comic.isInitialized) {
-                switchFragment(AddNewTagFragment.newInstance(comic))
-            }
-        }
+        add_tag.setOnClickListener { startAddTagFragment() }
         favorite_button.setOnClickListener { makeFavorite() }
 
 
@@ -107,7 +103,7 @@ class SingleComicFragment : BaseFragment() {
                 if (it.isFavorite) {
                     favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
                 }
-                comicLisViewModel.insert(comic)
+                comicLisViewModel.insertOrUpdate(comic)
             }
         })
     }
@@ -120,6 +116,12 @@ class SingleComicFragment : BaseFragment() {
         })
     }
 
+    private fun startAddTagFragment() {
+        if (::comic.isInitialized) {
+            switchFragment(AddNewTagFragment.newInstance(comic))
+        }
+    }
+
     private fun makeFavorite() {
         if (::comic.isInitialized) {
             val favoriteComic = ComicShort(comic.comicId, comic.safeTitle)
@@ -129,7 +131,7 @@ class SingleComicFragment : BaseFragment() {
             } else {
                 favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
             }
-            comicLisViewModel.insert(favoriteComic)
+            comicLisViewModel.insertOrUpdate(favoriteComic)
         }
     }
 

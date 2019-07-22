@@ -94,7 +94,7 @@ class FavoriteListFragment : BaseFragment() {
 
     private fun delete(comic: ComicShort) {
         comic.isFavorite = false
-        viewModel.insert(comic)
+        viewModel.insertOrUpdate(comic)
     }
 
 }

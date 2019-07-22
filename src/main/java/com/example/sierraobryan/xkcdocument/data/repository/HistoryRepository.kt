@@ -29,7 +29,7 @@ class HistoryRepository(application: Application) {
     }
 
 
-    fun insert(comicShort: ComicShort) {
+    fun insertOrUpdate(comicShort: ComicShort) {
         insertAsyncTask(dao).execute(comicShort)
     }
 
