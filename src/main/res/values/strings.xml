@@ -26,4 +26,5 @@
     <string name="date_viewed">Viewed on: </string>
     <string name="history">history</string>
     <string name="are_you_sure">Are you sure you want to remove this comic from your favorites?</string>
+    <string name="are_you_sure_from_history">Are you sure you want to remove this comic from your history? (It will also remove it from your favorites)</string>
 </resources>

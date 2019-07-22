@@ -78,11 +78,11 @@ class FavoriteListFragment : BaseFragment() {
 
         builder.setPositiveButton(
                 resources.getString(R.string.delete),
-                { dialog, which -> dialog.cancel() })
+                { _, _ -> delete(comicShort) })
 
         builder.setNegativeButton(
                 resources.getString(R.string.cancel),
-                { _, _ -> delete(comicShort) })
+                { dialog, which -> dialog.cancel() })
 
         val alert = builder.create()
         alert.show()

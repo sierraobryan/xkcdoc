@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +52,8 @@ class HistoryListFragment : BaseFragment() {
     private fun setUpAdapter() {
         favorite_recyclerview.visibility = View.VISIBLE
         error_layout.visibility = View.GONE
-        adapter = HistoryAdapter({ comic : ComicShort -> comicItemClicked(comic) })
+        adapter = HistoryAdapter({ comic : ComicShort -> comicItemClicked(comic) },
+                { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
         favorite_recyclerview.adapter = adapter
         favorite_recyclerview.layoutManager = LinearLayoutManager(activity)
     }
@@ -65,5 +67,27 @@ class HistoryListFragment : BaseFragment() {
 
     private fun comicItemClicked(comic : ComicShort) {
         switchFragment(SingleComicFragment.newInstance(comic))
+    }
+
+    private fun comicItemLongClicked(comicShort: ComicShort) : Boolean {
+        val builder = AlertDialog.Builder(context!!)
+        builder.setMessage(resources.getString(R.string.are_you_sure_from_history))
+        builder.setCancelable(true)
+
+        builder.setPositiveButton(
+                resources.getString(R.string.delete),
+                { _, _ -> delete(comicShort) })
+
+        builder.setNegativeButton(
+                resources.getString(R.string.cancel),
+                { dialog, which -> dialog.cancel() })
+
+        val alert = builder.create()
+        alert.show()
+        return true
+    }
+
+    private fun delete(comic: ComicShort) {
+        viewModel.delete(comic)
     }
 }

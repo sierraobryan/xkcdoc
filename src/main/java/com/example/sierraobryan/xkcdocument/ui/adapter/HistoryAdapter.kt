@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.row_item_tag.view.tag_for_list
 import java.text.DateFormat
 import java.util.*
 
-class HistoryAdapter(private val clickListener: (ComicShort) -> Unit) :
+class HistoryAdapter(private val clickListener: (ComicShort) -> Unit,
+                     private val longClickListener: (ComicShort) -> Boolean) :
         RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private var comics = emptyList<ComicShort>()
@@ -32,12 +33,12 @@ class HistoryAdapter(private val clickListener: (ComicShort) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.bind(comics.get(position), clickListener)
+        holder.bind(comics.get(position), clickListener, longClickListener)
     }
 
 
     class HistoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(comic: ComicShort, clickListener: (ComicShort) -> Unit) {
+        fun bind(comic: ComicShort, clickListener: (ComicShort) -> Unit, longClickListener: (ComicShort) -> Boolean) {
             itemView.tag_for_list.text = comic.safeTitle
             if (comic.isFavorite) {
                 itemView.favorite.visibility = View.VISIBLE
@@ -46,6 +47,7 @@ class HistoryAdapter(private val clickListener: (ComicShort) -> Unit) :
             }
             itemView.date_view.text = DateFormat.getDateInstance().format(Date(comic.timeStamp))
             itemView.setOnClickListener { clickListener(comic) }
+            itemView.setOnLongClickListener { longClickListener(comic) }
         }
     }
 }
