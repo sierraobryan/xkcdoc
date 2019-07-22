@@ -23,8 +23,13 @@ class HistoryListFragment : BaseFragment() {
         fun newInstance() = HistoryListFragment()
     }
 
-    private lateinit var viewModel: ComicListViewModel
-    private lateinit var adapter: HistoryAdapter
+    private val viewModel: ComicListViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
+    private val adapter: HistoryAdapter by lazy {
+        HistoryAdapter({ comic : ComicShort -> comicItemClicked(comic) },
+                { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -37,25 +42,25 @@ class HistoryListFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         setUpAdapter()
-
-        viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
-        viewModel.allHistory.observe(this, Observer {
-                if (it.isNotEmpty()) {
-                    adapter.setComics(it)
-                } else {
-                    setUpError()
-                }
-            })
+        setUpViewModel()
     }
 
 
     private fun setUpAdapter() {
         favorite_recyclerview.visibility = View.VISIBLE
         error_layout.visibility = View.GONE
-        adapter = HistoryAdapter({ comic : ComicShort -> comicItemClicked(comic) },
-                { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
         favorite_recyclerview.adapter = adapter
         favorite_recyclerview.layoutManager = LinearLayoutManager(activity)
+    }
+
+    private fun setUpViewModel() {
+        viewModel.allHistory.observe(this, Observer {
+            if (it.isNotEmpty()) {
+                adapter.setComics(it)
+            } else {
+                setUpError()
+            }
+        })
     }
 
     private fun setUpError() {

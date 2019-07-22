@@ -22,7 +22,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    private lateinit var xkcdViewModel: XkcdViewModel
+    private val xkcdViewModel: XkcdViewModel by lazy { ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         activity!!.app_bar_title.text = resources.getString(R.string.welcome)
 
-        xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
         xkcdViewModel.firstImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
                 xkcdViewModel.numberOfComics = it.body.num

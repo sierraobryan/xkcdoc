@@ -25,7 +25,9 @@ class AddNewTagFragment : BaseFragment() {
         }
     }
 
-    private lateinit var comicLisViewModel: ComicListViewModel
+    private val comicLisViewModel: ComicListViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
     private lateinit var listOfTags: List<String>
     private lateinit var comic: ComicShort
 
@@ -40,13 +42,11 @@ class AddNewTagFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         activity!!.app_bar_title.text = resources.getString(R.string.add_tag)
-        comic = this.arguments!!.get("comic") as ComicShort
 
-        comicLisViewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+        comic = this.arguments!!.get("comic") as ComicShort
         listOfTags = comicLisViewModel.getAllTagsforId(comic.comicId)
 
         current_tags.text = displayTagList(listOfTags)
-
         save_button.setOnClickListener { save() }
 
     }

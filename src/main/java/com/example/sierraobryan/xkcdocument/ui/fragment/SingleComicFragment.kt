@@ -30,8 +30,12 @@ class SingleComicFragment : BaseFragment() {
         }
     }
 
-    private lateinit var xkcdViewModel: XkcdViewModel
-    private lateinit var comicLisViewModel: ComicListViewModel
+    private val xkcdViewModel: XkcdViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
+    }
+    private val comicLisViewModel: ComicListViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
     private lateinit var comic: ComicShort
     private var NUM_OF_COMICS = 2177
 
@@ -46,8 +50,6 @@ class SingleComicFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         activity!!.app_bar_title.text = resources.getString(R.string.comic)
 
-        xkcdViewModel = ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
-        comicLisViewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
         NUM_OF_COMICS = xkcdViewModel.numberOfComics
 
         val args = this.arguments
@@ -60,34 +62,10 @@ class SingleComicFragment : BaseFragment() {
             getImage(getRandom())
         }
 
-        xkcdViewModel.singleImage.observe(this, Observer {
-            if (it is ApiSuccessResponse) {
-                comic = it.body.toComicShort()
-                comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic)
-                comicLisViewModel.setCurrentComic(comic)
-                title_text.text = it.body.safeTitle
-                tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
-                random_image.contentDescription = it.body.safeTitle
-                Picasso.get().load(it.body.img).fit().centerInside().into(random_image)
-            } else {
-                title_text.text = resources.getString(R.string.oops)
-                Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(random_image)
-                home_image.contentDescription = resources.getString(R.string.computer_problems_image)
-            }
-        })
-        comicLisViewModel.comic.observe(this, Observer {
-            if (::comic.isInitialized) {
-                if (it.isFavorite) {
-                    favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
-                }
-                comicLisViewModel.insert(comic)
-            }
-        })
-        comicLisViewModel.comicWithTagList.observe(this, Observer {
-            if (::comic.isInitialized) {
-                tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(comic.comicId))
-            }
-        })
+        observeOnComic()
+        observeOnComicShortForFavorite()
+        observeOnListOfTags()
+
 
         refresh.setOnClickListener { getImage(getRandom()) }
         add_tag.setOnClickListener {
@@ -103,6 +81,43 @@ class SingleComicFragment : BaseFragment() {
     private fun getImage(comicId : Int) {
         xkcdViewModel.getSpecificImage(comicId)
 
+    }
+
+    private fun observeOnComic() {
+        xkcdViewModel.singleImage.observe(this, Observer {
+            if (it is ApiSuccessResponse) {
+                comic = it.body.toComicShort()
+                comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic)
+                comicLisViewModel.setCurrentComic(comic)
+                title_text.text = it.body.safeTitle
+                tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
+                random_image.contentDescription = it.body.safeTitle
+                Picasso.get().load(it.body.img).fit().centerInside().into(random_image)
+            } else {
+                title_text.text = resources.getString(R.string.oops)
+                Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(random_image)
+                home_image.contentDescription = resources.getString(R.string.computer_problems_image)
+            }
+        })
+    }
+
+    private fun observeOnComicShortForFavorite() {
+        comicLisViewModel.comic.observe(this, Observer {
+            if (::comic.isInitialized) {
+                if (it.isFavorite) {
+                    favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+                }
+                comicLisViewModel.insert(comic)
+            }
+        })
+    }
+
+    private fun observeOnListOfTags() {
+        comicLisViewModel.comicWithTagList.observe(this, Observer {
+            if (::comic.isInitialized) {
+                tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(comic.comicId))
+            }
+        })
     }
 
     private fun makeFavorite() {

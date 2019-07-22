@@ -14,7 +14,6 @@ import com.example.sierraobryan.xkcdocument.ui.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.fragment_fravorite.*
 import androidx.appcompat.app.AlertDialog
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_error.*
 
 
@@ -24,8 +23,12 @@ class FavoriteListFragment : BaseFragment() {
         fun newInstance() = FavoriteListFragment()
     }
 
-    private lateinit var viewModel: ComicListViewModel
-    private lateinit var adapter: FavoriteAdapter
+    private val viewModel: ComicListViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java) }
+    private val adapter: FavoriteAdapter by lazy {
+        FavoriteAdapter({ comicShort : ComicShort -> comicItemClicked(comicShort) },
+                { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +42,18 @@ class FavoriteListFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         setUpAdapter()
+        setUpViewModel()
 
-        viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
+
+    private fun setUpAdapter() {
+        favorite_recyclerview.visibility = View.VISIBLE
+        error_layout.visibility = View.GONE
+        favorite_recyclerview.adapter = adapter
+        favorite_recyclerview.layoutManager = LinearLayoutManager(activity)
+    }
+
+    private fun setUpViewModel() {
         viewModel.allFavorites.observe(this, Observer {
             if (it.isNotEmpty()) {
                 adapter.setComics(it)
@@ -48,16 +61,6 @@ class FavoriteListFragment : BaseFragment() {
                 setUpError()
             }
         })
-
-    }
-
-    private fun setUpAdapter() {
-        favorite_recyclerview.visibility = View.VISIBLE
-        error_layout.visibility = View.GONE
-        adapter = FavoriteAdapter({ comicShort : ComicShort -> comicItemClicked(comicShort) },
-                { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
-        favorite_recyclerview.adapter = adapter
-        favorite_recyclerview.layoutManager = LinearLayoutManager(activity)
     }
 
     private fun setUpError() {

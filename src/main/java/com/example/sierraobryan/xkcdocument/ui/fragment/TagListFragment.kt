@@ -22,8 +22,10 @@ class TagListFragment : BaseFragment() {
         fun newInstance() = TagListFragment()
     }
 
-    private lateinit var viewModel: ComicListViewModel
-    private lateinit var tagListAdapter: TagListAdapter
+    private val viewModel: ComicListViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
+    private val tagListAdapter: TagListAdapter by lazy { TagListAdapter({ tag : String -> tagItemClicked(tag) }) }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +40,18 @@ class TagListFragment : BaseFragment() {
         activity!!.app_bar_title.text = resources.getString(R.string.categories)
 
         setUpAdapter()
+        setUpViewModel()
 
-        viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
+
+    private fun setUpAdapter() {
+        tags_recyclerview.visibility = View.VISIBLE
+        error_layout.visibility = View.GONE
+        tags_recyclerview.adapter = tagListAdapter
+        tags_recyclerview.layoutManager = LinearLayoutManager(activity)
+    }
+
+    private fun setUpViewModel() {
         viewModel.tagList.observe(this, Observer {
             if (it.isNotEmpty()) {
                 tagListAdapter.setComics(it.toList())
@@ -47,19 +59,6 @@ class TagListFragment : BaseFragment() {
                 setUpError()
             }
         })
-
-    }
-
-    private fun setUpAdapter() {
-        tags_recyclerview.visibility = View.VISIBLE
-        error_layout.visibility = View.GONE
-        tagListAdapter = TagListAdapter({ tag : String -> tagItemClicked(tag) })
-        tags_recyclerview.adapter = tagListAdapter
-        tags_recyclerview.layoutManager = LinearLayoutManager(activity)
-    }
-
-    private fun tagItemClicked(tag : String) {
-        switchFragment(ComicListFragment.newInstance(tag))
     }
 
     private fun setUpError() {
@@ -67,6 +66,11 @@ class TagListFragment : BaseFragment() {
         error_layout.visibility = View.VISIBLE
         error_text.text = resources.getString(R.string.oops)
         Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(error_image)
+    }
+
+
+    private fun tagItemClicked(tag : String) {
+        switchFragment(ComicListFragment.newInstance(tag))
     }
 
 

@@ -25,7 +25,9 @@ class ComicListFragment : BaseFragment() {
         }
     }
 
-    private lateinit var viewModel: ComicListViewModel
+    private val viewModel: ComicListViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
     private lateinit var adapter: ComicListAdapter
     private lateinit var listOfComics: List<ComicShort>
     private var comicTag: String = "tag"
@@ -43,8 +45,6 @@ class ComicListFragment : BaseFragment() {
         activity!!.app_bar_title.text = resources.getString(R.string.comics)
 
         comicTag = this.arguments!!.get("tag") as String
-
-        viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
         listOfComics = viewModel.getAllComicsForTag(comicTag)
         setUpAdapter(listOfComics)
 
