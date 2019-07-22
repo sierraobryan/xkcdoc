@@ -7,5 +7,8 @@ import java.io.Serializable
 @Entity(tableName = "fav_table")
 data class ComicShort(
         @PrimaryKey var comicId: Int,
-        var safeTitle: String
-) : Serializable
+        var safeTitle: String,
+        var isFavorite: Boolean = false
+) : Serializable {
+    var timeStamp = System.currentTimeMillis()
+}

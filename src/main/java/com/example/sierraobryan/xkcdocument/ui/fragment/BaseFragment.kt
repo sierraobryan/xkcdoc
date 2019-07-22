@@ -20,7 +20,7 @@ open class BaseFragment: Fragment() {
 
     fun displayTagList(strings: List<String>): String {
         if (strings.isNotEmpty()) {
-            var listOfTagsString: StringBuilder = java.lang.StringBuilder()
+            val listOfTagsString: StringBuilder = java.lang.StringBuilder()
             for (tag in strings) {
                 listOfTagsString.append(tag).append(", ")
             }

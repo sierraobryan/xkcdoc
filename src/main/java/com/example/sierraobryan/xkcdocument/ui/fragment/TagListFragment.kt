@@ -37,10 +37,12 @@ class TagListFragment : BaseFragment() {
 
         activity!!.app_bar_title.text = resources.getString(R.string.categories)
 
+        setUpAdapter()
+
         viewModel = ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
         viewModel.tagList.observe(this, Observer {
             if (it.isNotEmpty()) {
-                setUpAdapter(it!!.toList())
+                tagListAdapter.setComics(it.toList())
             } else {
                 setUpError()
             }
@@ -48,10 +50,10 @@ class TagListFragment : BaseFragment() {
 
     }
 
-    private fun setUpAdapter(list: List<String>) {
+    private fun setUpAdapter() {
         tags_recyclerview.visibility = View.VISIBLE
         error_layout.visibility = View.GONE
-        tagListAdapter = TagListAdapter(list, { tag : String -> tagItemClicked(tag) })
+        tagListAdapter = TagListAdapter({ tag : String -> tagItemClicked(tag) })
         tags_recyclerview.adapter = tagListAdapter
         tags_recyclerview.layoutManager = LinearLayoutManager(activity)
     }

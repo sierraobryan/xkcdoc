@@ -15,8 +15,6 @@ import kotlinx.android.synthetic.main.fragment_add_tag.*
 
 class AddNewTagFragment : BaseFragment() {
 
-    var COMIC_KEY = "comic"
-
     companion object {
         fun newInstance(comic : ComicShort): AddNewTagFragment {
             val fragment = AddNewTagFragment()
@@ -35,8 +33,7 @@ class AddNewTagFragment : BaseFragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_add_tag, container, false)
-        return view
+         return inflater.inflate(R.layout.fragment_add_tag, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -58,7 +55,5 @@ class AddNewTagFragment : BaseFragment() {
         val tag = new_tag.text.toString()
         (activity as MainActivity).addTagToDatabase(ComicWithTag(comic.comicId, comic.safeTitle, tag))
         removeFragment(this)
-
-
     }
 }

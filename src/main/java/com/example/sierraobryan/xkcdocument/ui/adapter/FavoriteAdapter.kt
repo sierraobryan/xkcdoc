@@ -8,10 +8,16 @@ import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class FavoriteAdapter(private val items: List<ComicShort>,
-                      private val clickListener: (ComicShort) -> Unit,
+class FavoriteAdapter(private val clickListener: (ComicShort) -> Unit,
                       private val longClickListener: (ComicShort) -> Boolean) :
         RecyclerView.Adapter<FavoriteAdapter.ComicViewHolder>() {
+
+    private var comics = emptyList<ComicShort>()
+
+    internal fun setComics(questions: List<ComicShort>) {
+        this.comics = questions
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.row_item_comic, parent, false)
@@ -19,11 +25,11 @@ class FavoriteAdapter(private val items: List<ComicShort>,
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return comics.size
     }
 
     override fun onBindViewHolder(holder: ComicViewHolder, position: Int) {
-        holder.bind(items.get(position), clickListener, longClickListener)
+        holder.bind(comics.get(position), clickListener, longClickListener)
     }
 
 

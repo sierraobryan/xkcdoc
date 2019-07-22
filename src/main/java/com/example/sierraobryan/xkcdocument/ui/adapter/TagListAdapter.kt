@@ -6,11 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sierraobryan.xkcdocument.R
+import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class TagListAdapter(private val items: List<String>,
-                     private val clickListener: (String) -> Unit) :
+class TagListAdapter(private val clickListener: (String) -> Unit) :
         RecyclerView.Adapter<TagListAdapter.TagViewHolder>(){
+
+    private var tags = emptyList<String>()
+
+    internal fun setComics(questions: List<String>) {
+        this.tags = questions
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.row_item_tag, parent, false)
@@ -18,11 +25,11 @@ class TagListAdapter(private val items: List<String>,
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return tags.size
     }
 
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
-        holder.bind(items.get(position), clickListener)
+        holder.bind(tags.get(position), clickListener)
     }
 
     class TagViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

@@ -9,10 +9,7 @@ import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
-import com.example.sierraobryan.xkcdocument.ui.fragment.FavoriteListFragment
-import com.example.sierraobryan.xkcdocument.ui.fragment.HomeFragment
-import com.example.sierraobryan.xkcdocument.ui.fragment.TagListFragment
-import com.example.sierraobryan.xkcdocument.ui.fragment.SingleComicFragment
+import com.example.sierraobryan.xkcdocument.ui.fragment.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
 
@@ -58,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_favorites -> {
-                switchFragment(FavoriteListFragment.newInstance())
+                switchFragment(HistoryAndFavoritesFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
         }
