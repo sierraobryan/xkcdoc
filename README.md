@@ -11,7 +11,7 @@
 - Could be fun (and prettier) to do a grid recyclerview layout instead of linear (would need to add the link to the ComicShort and Comic Tag objects) 
 - History should be ordered by date
 - Maybe need to refactor with ComicShort, ComicShortForHistory, and ComicShortWithTag
-  - ComicShort(title, id) 
+  - ComicShort(title, id) -> might be about to just pass around the id and skip this all together? 
   - ComicShortForHistory(title, id, link, isFavorite, timestamp)
   - ComicShortWithTag(title, id, link?, tag, timestamp)
   - Note: no nesting objects because they don't play as nice with room
