@@ -15,6 +15,7 @@
   - ComicShortForHistory(title, id, link, isFavorite, timestamp)
   - ComicShortWithTag(title, id, link?, tag, timestamp)
   - Note: no nesting objects because they don't play as nice with room
+  - Note: link for potential Gridview Layout Manager
 - Might have gone a little heavy handed with the observing 
 - <s>Add error screens (ie, no favorites images)</s>
 - Add loading screen for images 
