@@ -5,6 +5,7 @@
 - <b>ignore case on tag</b> 
 - <s>app bar things, need some title,</s> maybe a back button, <s>maybe an icon</s>
 - <b>Add search bar to the browse fragment to search for tags </b>
+- clear history 
 - <s>save favorites locally</s>
 - Use PageViewer (2!) in single comic view - now sure how well this will work with fast swiping since it has to make a service call each time
 - <s>Add error screens (ie, no favorites images)</s>
