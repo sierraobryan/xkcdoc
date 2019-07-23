@@ -12,38 +12,8 @@ import com.example.sierraobryan.xkcdocument.data.repository.HistoryRepository
 
 class ComicListViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val historyRepository : HistoryRepository
-    internal val allHistory: LiveData<List<ComicWithFavorite>>
-    internal val allFavorites: LiveData<List<ComicWithFavorite>>
-    val comic = MutableLiveData<ComicWithFavorite>()
     val comicWithTagList : MutableLiveData<List<ComicWithTag>> = MutableLiveData()
     val tagList = MutableLiveData<Set<String>>()
-
-    init {
-        historyRepository = HistoryRepository(application)
-        allHistory = historyRepository.getAll()
-        allFavorites = historyRepository.getAllFavorites()
-    }
-
-    fun setCurrentComic(comicWithFavorite: ComicWithFavorite) {
-        this.comic.value = comicWithFavorite
-    }
-
-    // favorite functions
-    fun insertOrUpdate(comicWithFavorite: ComicWithFavorite) {
-        historyRepository.insertOrUpdate(comicWithFavorite)
-    }
-
-    fun delete(comicWithFavorite: ComicWithFavorite) {
-        historyRepository.delete(comicWithFavorite)
-    }
-
-    fun isFavoriteFromId(id : Int): Boolean {
-        if (!allFavorites.value.isNullOrEmpty()) {
-            return allFavorites.value!!.any { comic -> comic.num == id }
-        }
-        return false
-    }
 
     // tag functions
     fun setComicTagList(list: List<ComicWithTag>) {

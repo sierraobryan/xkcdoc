@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
+import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.example.sierraobryan.xkcdocument.ui.adapter.HistoryAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_fravorite.*
@@ -23,8 +24,8 @@ class HistoryListFragment : BaseFragment() {
         fun newInstance() = HistoryListFragment()
     }
 
-    private val viewModel: ComicListViewModel by lazy {
-        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    private val viewModel: XkcdViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java)
     }
     private val adapter: HistoryAdapter by lazy {
         HistoryAdapter({ comic : ComicWithFavorite -> comicItemClicked(comic) },

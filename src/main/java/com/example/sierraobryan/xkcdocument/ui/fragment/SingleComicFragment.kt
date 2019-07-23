@@ -55,16 +55,16 @@ class SingleComicFragment : BaseFragment() {
         NUM_OF_COMICS = xkcdViewModel.numberOfComics
 
         val args = this.arguments
-        if (args != null) {
-            comic = (args.get("comic") as Comic).toComicWithFavorite(false)
-            getImage(comic.num)
-            comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic.num)
-            comicLisViewModel.setCurrentComic(comic)
-        } else {
-            getImage(getRandom())
+        args?.let {
+            setComic(args.get("comic") as Comic)
+            setUpView(comic)
+        } ?: run {
+            // getImage(getRandom())
+            fetchImage(getRandom())
         }
 
-        observeOnComic()
+        // observeOnComic()
+        observeOnComicCo()
         observeOnComicShortForFavorite()
         observeOnListOfTags()
 
@@ -81,16 +81,15 @@ class SingleComicFragment : BaseFragment() {
 
     }
 
+    private fun fetchImage(comicId: Int) {
+        xkcdViewModel.getSpecificImageCo(comicId)
+    }
+
     private fun observeOnComic() {
         xkcdViewModel.singleImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
-                comic = it.body.toComicWithFavorite(false)
-                comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic.num)
-                comicLisViewModel.setCurrentComic(comic)
-                title_text.text = it.body.safeTitle
-                tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(it.body.num))
-                random_image.contentDescription = it.body.safeTitle
-                Picasso.get().load(it.body.img).fit().centerInside().into(random_image)
+                setComic(it.body)
+                setUpView(comic)
             } else {
                 title_text.text = resources.getString(R.string.oops)
                 Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(random_image)
@@ -99,13 +98,26 @@ class SingleComicFragment : BaseFragment() {
         })
     }
 
+    private fun observeOnComicCo() {
+        xkcdViewModel.imageFromId.observe(this, Observer {
+            it?.let {
+                setComic(it)
+                setUpView(comic)
+            } ?: run {
+                title_text.text = resources.getString(R.string.oops)
+                Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(random_image)
+                random_image.contentDescription = resources.getString(R.string.computer_problems_image)
+            }
+        })
+    }
+
     private fun observeOnComicShortForFavorite() {
-        comicLisViewModel.comic.observe(this, Observer {
+        xkcdViewModel.comic.observe(this, Observer {
             if (::comic.isInitialized) {
                 if (it.isFavorite) {
                     favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
                 }
-                comicLisViewModel.insertOrUpdate(comic)
+                xkcdViewModel.insertOrUpdate(comic)
             }
         })
     }
@@ -124,16 +136,28 @@ class SingleComicFragment : BaseFragment() {
         }
     }
 
+    private fun setComic(comic: Comic) {
+        this.comic = comic.toComicWithFavorite()
+        this.comic.isFavorite = xkcdViewModel.isFavoriteFromId(comic.num)
+        xkcdViewModel.setCurrentComic(this.comic)
+    }
+
+    private fun setUpView(comic: ComicWithFavorite) {
+        title_text.text = comic.safeTitle
+        tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(comic.num))
+        random_image.contentDescription = comic.safeTitle
+        Picasso.get().load(comic.img).fit().centerInside().into(random_image)
+    }
+
     private fun makeFavorite() {
         if (::comic.isInitialized) {
-            val favoriteComic = comic
-            if (!comic.isFavorite) {
-                favoriteComic.isFavorite = true
+            comic.isFavorite = !comic.isFavorite
+            if (comic.isFavorite) {
                 favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
             } else {
                 favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
             }
-            comicLisViewModel.insertOrUpdate(favoriteComic)
+            xkcdViewModel.insertOrUpdate(comic)
         }
 
     }

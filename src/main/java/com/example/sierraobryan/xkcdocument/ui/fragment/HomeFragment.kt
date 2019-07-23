@@ -24,9 +24,6 @@ class HomeFragment : Fragment() {
     }
 
     private val xkcdViewModel: XkcdViewModel by lazy { ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java) }
-    private val comicLisViewModel: ComicListViewModel by lazy {
-        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +45,7 @@ class HomeFragment : Fragment() {
                 home_image.contentDescription = it.safeTitle
                 Picasso.get().load(it.img).fit().centerInside()
                         .into(home_image)
-                comicLisViewModel.insertOrUpdate(it.toComicWithFavorite(false))
+                xkcdViewModel.insertOrUpdate(it.toComicWithFavorite(false))
             } ?: run {
                 title_text.text = resources.getString(R.string.oops)
                 Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(home_image)

@@ -32,6 +32,20 @@ class Comic(
                 isFavorite)
     }
 
+    fun toComicWithFavorite() : ComicWithFavorite {
+        return ComicWithFavorite(this.alt,
+                this.day,
+                this.img,
+                this.link,
+                this.month,
+                this.news,
+                this.num,
+                this.safeTitle,
+                this.title,
+                this.transcript,
+                this.year)
+    }
+
     fun toComicWithTag(tag : String) : ComicWithTag {
         return ComicWithTag(this.alt,
                 this.day,

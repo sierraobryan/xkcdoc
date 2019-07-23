@@ -19,4 +19,7 @@ interface XkcdService {
 
     @GET("{comic_id}/info.0.json")
     fun getSpecifcComic(@Path(value = "comic_id") comicId : String) : LiveData<ApiResponse<Comic>>
+
+    @GET("{comic_id}/info.0.json")
+    fun getSpecifcComicCo(@Path(value = "comic_id") comicId : String) : Deferred<Response<Comic>>
 }

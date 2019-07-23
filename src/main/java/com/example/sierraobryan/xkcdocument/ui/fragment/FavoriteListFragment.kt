@@ -13,6 +13,7 @@ import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.ui.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.fragment_fravorite.*
 import androidx.appcompat.app.AlertDialog
+import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_error.*
 
@@ -23,8 +24,8 @@ class FavoriteListFragment : BaseFragment() {
         fun newInstance() = FavoriteListFragment()
     }
 
-    private val viewModel: ComicListViewModel by lazy {
-        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java) }
+    private val viewModel: XkcdViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java) }
     private val adapter: FavoriteAdapter by lazy {
         FavoriteAdapter({ comicWithFavorite : ComicWithFavorite -> comicItemClicked(comicWithFavorite) },
                 { comicWithFavorite : ComicWithFavorite -> comicItemLongClicked(comicWithFavorite) })
