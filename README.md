@@ -29,3 +29,4 @@
 - cache the first comic so as not to make that network call everytime 
   - <s>Put an indication that it is new in the history</s> 
 - combine database and remote calls so that it gives an ID checks in database then makes the network call
+- I think it would be idea to only pass the ID which I think is an easy change - then you can guarantee it's only a small amount of data moving around 
