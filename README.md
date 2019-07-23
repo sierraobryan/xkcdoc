@@ -7,11 +7,12 @@
 - <s>app bar things, need some title,</s> maybe a back button, <s>maybe an icon</s>
 - <b>Add search bar to the browse fragment to search for tags </b>
 - clear history 
-- coroutines?
+- coroutines? (Some)
+- Do something about the firebase; move it somewhere else (probably move it all into the VM instead of the activity)
 - DI : Dagger 2
 - <s>save favorites locally</s>
-- Use PageViewer (2!) in single comic view - now sure how well this will work with fast swiping since it has to make a service call each time
-- Could be fun (and prettier) to do a grid recyclerview layout instead of linear (would need to add the link to the ComicShort and Comic Tag objects) 
+- Use PageViewer (2!) in single comic view - now sure how well this will work with fast swiping since it has to make a service call each time (ehhh not sure this is a good idea)
+- Could be fun (and prettier) to do a grid recyclerview layout instead of linear (<s>would need to add the link to the ComicShort and Comic Tag objects</s> - available now) 
 - History should be ordered by date
 - <s>Maybe need to refactor with ComicShort, ComicShortForHistory, and ComicShortWithTag
   - ComicShort(title, id) -> might be about to just pass around the id and skip this all together? 
@@ -27,3 +28,4 @@
 - Fun: add endorsements to tags and then order by endorsements when showing tags 
 - cache the first comic so as not to make that network call everytime 
   - <s>Put an indication that it is new in the history</s> 
+- combine database and remote calls so that it gives an ID checks in database then makes the network call
