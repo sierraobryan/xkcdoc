@@ -24,3 +24,5 @@
 - Add loading screen for images 
 - Add go to specific ID functionality
 - Fun: add endorsements to tags and then order by endorsements when showing tags 
+- cache the first comic so as not to make that network call everytime 
+  - Put an indication that it is new in the history 
