@@ -7,7 +7,7 @@
 - <s>app bar things, need some title,</s> maybe a back button, <s>maybe an icon</s>
 - <b>Add search bar to the browse fragment to search for tags </b>
 - clear history 
-- coroutines? (Some)
+- coroutines? (Some Done)
 - Do something about the firebase; move it somewhere else (probably move it all into the VM instead of the activity)
 - DI : Dagger 2
 - <s>save favorites locally</s>
