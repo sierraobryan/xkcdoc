@@ -13,12 +13,13 @@
 - Use PageViewer (2!) in single comic view - now sure how well this will work with fast swiping since it has to make a service call each time
 - Could be fun (and prettier) to do a grid recyclerview layout instead of linear (would need to add the link to the ComicShort and Comic Tag objects) 
 - History should be ordered by date
-- Maybe need to refactor with ComicShort, ComicShortForHistory, and ComicShortWithTag
+- <s>Maybe need to refactor with ComicShort, ComicShortForHistory, and ComicShortWithTag
   - ComicShort(title, id) -> might be about to just pass around the id and skip this all together? 
   - ComicShortForHistory(title, id, link, isFavorite, timestamp)
   - ComicShortWithTag(title, id, link?, tag, timestamp)
   - Note: no nesting objects because they don't play as nice with room or at least it's not as <i>easy</i> 
-  - Note: link for potential Gridview Layout Manager
+  - Note: link for potential Gridview Layout Manager </s>
+  - Just kidding using full comic: all the comic all the time (plus some other info for favorite and tags)
 - Might have gone a little heavy handed with the observing 
 - <s>Add error screens (ie, no favorites images)</s>
 - Add loading screen for images 
