@@ -14,12 +14,13 @@ interface XkcdService {
     @GET("info.0.json")
     fun getFirstImageCoroutine() : Deferred<Response<Comic>>
 
+    @GET("{comic_id}/info.0.json")
+    fun getSpecifcComicCo(@Path(value = "comic_id") comicId : String) : Deferred<Response<Comic>>
+
     @GET("info.0.json")
     fun getFirstImage() : LiveData<ApiResponse<Comic>>
 
     @GET("{comic_id}/info.0.json")
     fun getSpecifcComic(@Path(value = "comic_id") comicId : String) : LiveData<ApiResponse<Comic>>
 
-    @GET("{comic_id}/info.0.json")
-    fun getSpecifcComicCo(@Path(value = "comic_id") comicId : String) : Deferred<Response<Comic>>
 }

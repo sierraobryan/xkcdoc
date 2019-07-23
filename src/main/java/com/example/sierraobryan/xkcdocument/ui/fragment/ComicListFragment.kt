@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sierraobryan.xkcdocument.Constants
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.Comic
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
@@ -20,7 +21,7 @@ class ComicListFragment : BaseFragment() {
         fun newInstance(tag: String): ComicListFragment {
             val fragment = ComicListFragment()
             val bundle = Bundle()
-            bundle.putString("tag", tag)
+            bundle.putString(Constants.TAG_KEY, tag)
             fragment.arguments = bundle
             return fragment
         }
@@ -45,7 +46,7 @@ class ComicListFragment : BaseFragment() {
 
         activity!!.app_bar_title.text = resources.getString(R.string.comics)
 
-        comicTag = this.arguments!!.get("tag") as String
+        comicTag = this.arguments!!.get(Constants.TAG_KEY) as String
         listOfComics = viewModel.getAllComicsForTag(comicTag)
         setUpAdapter(listOfComics)
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import com.example.sierraobryan.xkcdocument.Constants
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.Comic
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
@@ -20,7 +21,7 @@ class AddNewTagFragment : BaseFragment() {
         fun newInstance(comic : Comic): AddNewTagFragment {
             val fragment = AddNewTagFragment()
             val bundle = Bundle()
-            bundle.putSerializable("comic", comic)
+            bundle.putSerializable(Constants.COMIC_KEY, comic)
             fragment.arguments = bundle
             return fragment
         }
@@ -44,7 +45,7 @@ class AddNewTagFragment : BaseFragment() {
 
         activity!!.app_bar_title.text = resources.getString(R.string.add_tag)
 
-        comic = this.arguments!!.get("comic") as Comic
+        comic = this.arguments!!.get(Constants.COMIC_KEY) as Comic
         listOfTags = comicLisViewModel.getAllTagsForId(comic.num)
 
         current_tags.text = displayTagList(listOfTags)

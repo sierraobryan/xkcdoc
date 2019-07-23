@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.sierraobryan.xkcdocument.Constants
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ApiSuccessResponse
 import com.example.sierraobryan.xkcdocument.data.model.Comic
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_single_comic.*
 import kotlinx.android.synthetic.main.fragment_welcome.title_text
+import java.lang.Exception
 
 class SingleComicFragment : BaseFragment() {
 
@@ -25,7 +27,7 @@ class SingleComicFragment : BaseFragment() {
         fun newInstance(comic: Comic) : SingleComicFragment {
             val fragment = SingleComicFragment()
             val bundle = Bundle()
-            bundle.putSerializable("comic", comic)
+            bundle.putSerializable(Constants.COMIC_KEY, comic)
             fragment.arguments = bundle
             return fragment
         }
@@ -56,7 +58,7 @@ class SingleComicFragment : BaseFragment() {
 
         val args = this.arguments
         args?.let {
-            setComic(args.get("comic") as Comic)
+            setComic(args.get(Constants.COMIC_KEY) as Comic)
             setUpView(comic)
         } ?: run {
             // getImage(getRandom())
@@ -104,9 +106,7 @@ class SingleComicFragment : BaseFragment() {
                 setComic(it)
                 setUpView(comic)
             } ?: run {
-                title_text.text = resources.getString(R.string.oops)
-                Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(random_image)
-                random_image.contentDescription = resources.getString(R.string.computer_problems_image)
+                onError()
             }
         })
     }
@@ -135,7 +135,11 @@ class SingleComicFragment : BaseFragment() {
         setFavoriteDrawable(comic.isFavorite)
         tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(comic.num))
         random_image.contentDescription = comic.safeTitle
-        Picasso.get().load(comic.img).fit().centerInside().into(random_image)
+        try {
+            Picasso.get().load(comic.img).fit().centerInside().into(random_image)
+        } catch (e : Exception){
+            onError()
+        }
     }
 
     private fun makeFavorite() {
@@ -147,6 +151,12 @@ class SingleComicFragment : BaseFragment() {
 
     }
 
+    private fun onError() {
+        title_text.text = resources.getString(R.string.oops)
+        Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(random_image)
+        random_image.contentDescription = resources.getString(R.string.computer_problems_image)
+    }
+
     private fun setFavoriteDrawable(isFavorite: Boolean) {
         if (isFavorite) {
             favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
@@ -156,6 +166,5 @@ class SingleComicFragment : BaseFragment() {
     }
 
     private fun getRandom() = (Math.random() * NUM_OF_COMICS).toInt()
-    private fun get96() = 96
 
 }
