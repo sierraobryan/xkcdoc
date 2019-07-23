@@ -1,6 +1,7 @@
 package com.example.sierraobryan.xkcdocument.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class Comic(
     val alt: String,
@@ -14,9 +15,35 @@ class Comic(
     val safeTitle: String,
     val title: String,
     val transcript: String,
-    val year: String) {
+    val year: String) : Serializable {
 
-    fun toComicShort() : ComicShort {
-        return ComicShort(this.num, this.safeTitle)
+    fun toComicWithFavorite(isFavorite:Boolean) : ComicWithFavorite {
+        return ComicWithFavorite(this.alt,
+                this.day,
+                this.img,
+                this.link,
+                this.month,
+                this.news,
+                this.num,
+                this.safeTitle,
+                this.title,
+                this.transcript,
+                this.year,
+                isFavorite)
+    }
+
+    fun toComicWithTag(tag : String) : ComicWithTag {
+        return ComicWithTag(this.alt,
+                this.day,
+                this.img,
+                this.link,
+                this.month,
+                this.news,
+                this.num,
+                this.safeTitle,
+                this.title,
+                this.transcript,
+                this.year,
+                tag)
     }
 }

@@ -1,9 +1,10 @@
 package com.example.sierraobryan.xkcdocument.network
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class XkcdApiIClient {
+class XkcdApiClientCoroutine {
 
     companion object {
 
@@ -11,10 +12,10 @@ class XkcdApiIClient {
 
         fun create(): XkcdService {
             val retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(LiveDataCallAdapterFactory())
-                .baseUrl(BASE_URL)
-                .build()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                    .baseUrl(BASE_URL)
+                    .build()
             return retrofit.create(XkcdService::class.java)
         }
     }

@@ -4,15 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
-import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
-import com.example.sierraobryan.xkcdocument.ui.adapter.ComicListAdapter
 import com.example.sierraobryan.xkcdocument.ui.adapter.HistoryAndFavoritesPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_comic_list.*
 import kotlinx.android.synthetic.main.fragment_tab_history_favorites.*
 
 class HistoryAndFavoritesFragment : BaseFragment() {

@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.ui.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.fragment_fravorite.*
@@ -26,8 +26,8 @@ class FavoriteListFragment : BaseFragment() {
     private val viewModel: ComicListViewModel by lazy {
         ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java) }
     private val adapter: FavoriteAdapter by lazy {
-        FavoriteAdapter({ comicShort : ComicShort -> comicItemClicked(comicShort) },
-                { comicShort : ComicShort -> comicItemLongClicked(comicShort) })
+        FavoriteAdapter({ comicWithFavorite : ComicWithFavorite -> comicItemClicked(comicWithFavorite) },
+                { comicWithFavorite : ComicWithFavorite -> comicItemLongClicked(comicWithFavorite) })
     }
 
     override fun onCreateView(
@@ -70,29 +70,29 @@ class FavoriteListFragment : BaseFragment() {
         Picasso.get().load(R.drawable.duty_calls).fit().centerInside().into(error_image)
     }
 
-    private fun comicItemClicked(comicShort : ComicShort) {
-        switchFragment(SingleComicFragment.newInstance(comicShort))
+    private fun comicItemClicked(comicWithFavorite : ComicWithFavorite) {
+        switchFragment(SingleComicFragment.newInstance(comicWithFavorite.toComic()))
     }
 
-    private fun comicItemLongClicked(comicShort: ComicShort) : Boolean {
+    private fun comicItemLongClicked(comicWithFavorite: ComicWithFavorite) : Boolean {
         val builder = AlertDialog.Builder(context!!)
         builder.setMessage(resources.getString(R.string.are_you_sure))
         builder.setCancelable(true)
 
         builder.setPositiveButton(
                 resources.getString(R.string.delete),
-                { _, _ -> delete(comicShort) })
+                { _, _ -> delete(comicWithFavorite) })
 
         builder.setNegativeButton(
                 resources.getString(R.string.cancel),
-                { dialog, which -> dialog.cancel() })
+                { dialog, _ -> dialog.cancel() })
 
         val alert = builder.create()
         alert.show()
         return true
     }
 
-    private fun delete(comic: ComicShort) {
+    private fun delete(comic: ComicWithFavorite) {
         comic.isFavorite = false
         viewModel.insertOrUpdate(comic)
     }

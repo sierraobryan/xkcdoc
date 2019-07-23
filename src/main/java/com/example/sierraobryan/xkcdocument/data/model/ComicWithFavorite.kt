@@ -1,23 +1,28 @@
 package com.example.sierraobryan.xkcdocument.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class ComicWithTag(
-        val alt: String = "",
-        val day: String = "",
-        val img: String = "",
-        val link: String = "",
-        val month: String = "",
-        val news: String = "",
-        val num: Int = 0,
+@Entity(tableName = "fav_table")
+data class ComicWithFavorite(
+        val alt: String,
+        val day: String,
+        val img: String,
+        val link: String,
+        val month: String,
+        val news: String,
+        @PrimaryKey
+        val num: Int,
         @SerializedName("safe_title")
-        val safeTitle: String  = "",
-        val title: String  = "",
-        val transcript: String  = "",
-        val year: String = "",
-        var tag: String = ""
+        val safeTitle: String,
+        val title: String,
+        val transcript: String,
+        val year: String,
+        var isFavorite: Boolean = false
 ) : Serializable {
+    var timeStamp = System.currentTimeMillis()
 
     fun toComic() : Comic {
         return Comic(this.alt,
@@ -32,5 +37,4 @@ class ComicWithTag(
                 this.transcript,
                 this.year)
     }
-
 }

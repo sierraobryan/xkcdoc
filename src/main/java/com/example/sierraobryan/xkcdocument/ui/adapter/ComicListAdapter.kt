@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.Comic
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class ComicListAdapter(private val items: List<ComicShort>,
-                       private val clickListener: (ComicShort) -> Unit) :
+class ComicListAdapter(private val items: List<Comic>,
+                       private val clickListener: (Comic) -> Unit) :
         RecyclerView.Adapter<ComicListAdapter.ComicViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
@@ -27,7 +28,7 @@ class ComicListAdapter(private val items: List<ComicShort>,
 
 
     class ComicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(comic: ComicShort, clickListener: (ComicShort) -> Unit) {
+        fun bind(comic: Comic, clickListener: (Comic) -> Unit) {
             itemView.tag_for_list.text = comic.safeTitle
             itemView.setOnClickListener { clickListener(comic) }
         }

@@ -5,16 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class FavoriteAdapter(private val clickListener: (ComicShort) -> Unit,
-                      private val longClickListener: (ComicShort) -> Boolean) :
+class FavoriteAdapter(private val clickListener: (ComicWithFavorite) -> Unit,
+                      private val longClickListener: (ComicWithFavorite) -> Boolean) :
         RecyclerView.Adapter<FavoriteAdapter.ComicViewHolder>() {
 
-    private var comics = emptyList<ComicShort>()
+    private var comics = emptyList<ComicWithFavorite>()
 
-    internal fun setComics(questions: List<ComicShort>) {
+    internal fun setComics(questions: List<ComicWithFavorite>) {
         this.comics = questions
         notifyDataSetChanged()
     }
@@ -34,11 +34,11 @@ class FavoriteAdapter(private val clickListener: (ComicShort) -> Unit,
 
 
     class ComicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(comicShort: ComicShort, clickListener: (ComicShort) -> Unit,
-                 longClickListener: (ComicShort) -> Boolean) {
-            itemView.tag_for_list.text = comicShort.safeTitle
-            itemView.setOnClickListener { clickListener(comicShort) }
-            itemView.setOnLongClickListener { longClickListener(comicShort) }
+        fun bind(comicWithFavorite: ComicWithFavorite, clickListener: (ComicWithFavorite) -> Unit,
+                 longClickListener: (ComicWithFavorite) -> Boolean) {
+            itemView.tag_for_list.text = comicWithFavorite.safeTitle
+            itemView.setOnClickListener { clickListener(comicWithFavorite) }
+            itemView.setOnLongClickListener { longClickListener(comicWithFavorite) }
         }
     }
 }

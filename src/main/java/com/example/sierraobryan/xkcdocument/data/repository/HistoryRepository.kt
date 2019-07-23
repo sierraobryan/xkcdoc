@@ -5,13 +5,13 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import com.example.sierraobryan.xkcdocument.data.dao.HistoryDao
 import com.example.sierraobryan.xkcdocument.data.database.HistoryDatabase
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 
 class HistoryRepository(application: Application) {
 
     private val dao: HistoryDao
-    private val historyData: LiveData<List<ComicShort>>
-    private val favoriteData: LiveData<List<ComicShort>>
+    private val historyData: LiveData<List<ComicWithFavorite>>
+    private val favoriteData: LiveData<List<ComicWithFavorite>>
 
     init {
         val db = HistoryDatabase.getInstance(application)
@@ -20,34 +20,34 @@ class HistoryRepository(application: Application) {
         favoriteData = dao.getAllFavorites()
     }
 
-    fun getAll(): LiveData<List<ComicShort>> {
+    fun getAll(): LiveData<List<ComicWithFavorite>> {
         return historyData
     }
 
-    fun getAllFavorites(): LiveData<List<ComicShort>> {
+    fun getAllFavorites(): LiveData<List<ComicWithFavorite>> {
         return favoriteData
     }
 
 
-    fun insertOrUpdate(comicShort: ComicShort) {
-        insertAsyncTask(dao).execute(comicShort)
+    fun insertOrUpdate(comicWithFavorite: ComicWithFavorite) {
+        insertAsyncTask(dao).execute(comicWithFavorite)
     }
 
-    fun delete(comicShort: ComicShort) {
-        deleteAsyncTask(dao).execute(comicShort)
+    fun delete(comicWithFavorite: ComicWithFavorite) {
+        deleteAsyncTask(dao).execute(comicWithFavorite)
     }
 
     private class insertAsyncTask internal constructor(private val dao: HistoryDao) :
-            AsyncTask<ComicShort, Void, Void>() {
-        override fun doInBackground(vararg params: ComicShort): Void? {
+            AsyncTask<ComicWithFavorite, Void, Void>() {
+        override fun doInBackground(vararg params: ComicWithFavorite): Void? {
             dao.insert(params[0])
             return null
         }
     }
 
     private class deleteAsyncTask internal constructor(private val dao: HistoryDao) :
-            AsyncTask<ComicShort, Void, Void>() {
-        override fun doInBackground(vararg params: ComicShort): Void? {
+            AsyncTask<ComicWithFavorite, Void, Void>() {
+        override fun doInBackground(vararg params: ComicWithFavorite): Void? {
             dao.delete(params[0])
             return null
         }

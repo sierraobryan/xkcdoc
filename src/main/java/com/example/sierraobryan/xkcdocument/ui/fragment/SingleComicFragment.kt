@@ -8,7 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ApiSuccessResponse
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.Comic
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
@@ -18,10 +19,11 @@ import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.fragment_welcome.title_text
 
 class SingleComicFragment : BaseFragment() {
+
     companion object {
         fun newInstance() = SingleComicFragment()
 
-        fun newInstance(comic: ComicShort) : SingleComicFragment {
+        fun newInstance(comic: Comic) : SingleComicFragment {
             val fragment = SingleComicFragment()
             val bundle = Bundle()
             bundle.putSerializable("comic", comic)
@@ -36,7 +38,7 @@ class SingleComicFragment : BaseFragment() {
     private val comicLisViewModel: ComicListViewModel by lazy {
         ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
     }
-    private lateinit var comic: ComicShort
+    private lateinit var comic: ComicWithFavorite
     private var NUM_OF_COMICS = 2177
 
     override fun onCreateView(
@@ -54,9 +56,9 @@ class SingleComicFragment : BaseFragment() {
 
         val args = this.arguments
         if (args != null) {
-            comic = args.get("comic") as ComicShort
-            getImage(comic.comicId)
-            comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic)
+            comic = (args.get("comic") as Comic).toComicWithFavorite(false)
+            getImage(comic.num)
+            comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic.num)
             comicLisViewModel.setCurrentComic(comic)
         } else {
             getImage(getRandom())
@@ -82,17 +84,17 @@ class SingleComicFragment : BaseFragment() {
     private fun observeOnComic() {
         xkcdViewModel.singleImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
-                comic = it.body.toComicShort()
-                comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic)
+                comic = it.body.toComicWithFavorite(false)
+                comic.isFavorite = comicLisViewModel.isFavoriteFromId(comic.num)
                 comicLisViewModel.setCurrentComic(comic)
                 title_text.text = it.body.safeTitle
-                tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(it.body.num))
+                tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(it.body.num))
                 random_image.contentDescription = it.body.safeTitle
                 Picasso.get().load(it.body.img).fit().centerInside().into(random_image)
             } else {
                 title_text.text = resources.getString(R.string.oops)
                 Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(random_image)
-                home_image.contentDescription = resources.getString(R.string.computer_problems_image)
+                random_image.contentDescription = resources.getString(R.string.computer_problems_image)
             }
         })
     }
@@ -110,21 +112,21 @@ class SingleComicFragment : BaseFragment() {
 
     private fun observeOnListOfTags() {
         comicLisViewModel.comicWithTagList.observe(this, Observer {
-            if (::comic.isInitialized) {
-                tag_text.text = displayTagList(comicLisViewModel.getAllTagsforId(comic.comicId))
-            }
+           if (::comic.isInitialized) {
+               tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(comic.num))
+           }
         })
     }
 
     private fun startAddTagFragment() {
         if (::comic.isInitialized) {
-            switchFragment(AddNewTagFragment.newInstance(comic))
+            switchFragment(AddNewTagFragment.newInstance(comic.toComic()))
         }
     }
 
     private fun makeFavorite() {
         if (::comic.isInitialized) {
-            val favoriteComic = ComicShort(comic.comicId, comic.safeTitle)
+            val favoriteComic = comic
             if (!comic.isFavorite) {
                 favoriteComic.isFavorite = true
                 favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
@@ -133,6 +135,7 @@ class SingleComicFragment : BaseFragment() {
             }
             comicLisViewModel.insertOrUpdate(favoriteComic)
         }
+
     }
 
     private fun getRandom() = (Math.random() * NUM_OF_COMICS).toInt()

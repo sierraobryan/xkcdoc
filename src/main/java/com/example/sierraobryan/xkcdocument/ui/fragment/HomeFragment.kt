@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ApiSuccessResponse
+import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +24,9 @@ class HomeFragment : Fragment() {
     }
 
     private val xkcdViewModel: XkcdViewModel by lazy { ViewModelProviders.of(activity!!).get(XkcdViewModel::class.java) }
+    private val comicLisViewModel: ComicListViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +38,27 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity!!.app_bar_title.text = resources.getString(R.string.welcome)
+
+        xkcdViewModel.getFirstImage()
+
+        xkcdViewModel.firstImageFromCoroutine.observe( this, Observer {
+            it?.let {
+                xkcdViewModel.numberOfComics = it.num
+                title_text.text = it.safeTitle
+                home_image.contentDescription = it.safeTitle
+                Picasso.get().load(it.img).fit().centerInside()
+                        .into(home_image)
+                comicLisViewModel.insertOrUpdate(it.toComicWithFavorite(false))
+            } ?: run {
+                title_text.text = resources.getString(R.string.oops)
+                Picasso.get().load(R.drawable.fixing_problems).fit().centerInside().into(home_image)
+                home_image.contentDescription = resources.getString(R.string.computer_problems_image)
+            }
+        })
+
+        /**
+
+         WITHOUT COROUTINES
 
         xkcdViewModel.firstImage.observe(this, Observer {
             if (it is ApiSuccessResponse) {
@@ -49,6 +74,7 @@ class HomeFragment : Fragment() {
 
             }
         })
+        **/
 
     }
 

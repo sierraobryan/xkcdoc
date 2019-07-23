@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.sierraobryan.xkcdocument.data.dao.HistoryDao
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 
-@Database(entities = arrayOf(ComicShort::class), version = 3)
+@Database(entities = arrayOf(ComicWithFavorite::class), version = 4)
 abstract class HistoryDatabase : RoomDatabase() {
     abstract fun favoriteDao() : HistoryDao
 

@@ -3,11 +3,16 @@ package com.example.sierraobryan.xkcdocument.network
 import androidx.lifecycle.LiveData
 import com.example.sierraobryan.xkcdocument.data.model.ApiResponse
 import com.example.sierraobryan.xkcdocument.data.model.Comic
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface XkcdService {
+
+    @GET("info.0.json")
+    fun getFirstImageCoroutine() : Deferred<Response<Comic>>
 
     @GET("info.0.json")
     fun getFirstImage() : LiveData<ApiResponse<Comic>>

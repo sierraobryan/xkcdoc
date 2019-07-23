@@ -1,16 +1,14 @@
 package com.example.sierraobryan.xkcdocument.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
 class TagListAdapter(private val clickListener: (String) -> Unit) :
-        RecyclerView.Adapter<TagListAdapter.TagViewHolder>(){
+        RecyclerView.Adapter<TagListAdapter.TagViewHolder>() {
 
     private var tags = emptyList<String>()
 

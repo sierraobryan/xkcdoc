@@ -9,7 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sierraobryan.xkcdocument.R
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.Comic
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,7 +30,7 @@ class ComicListFragment : BaseFragment() {
         ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
     }
     private lateinit var adapter: ComicListAdapter
-    private lateinit var listOfComics: List<ComicShort>
+    private lateinit var listOfComics: List<Comic>
     private var comicTag: String = "tag"
 
     override fun onCreateView(
@@ -50,13 +51,13 @@ class ComicListFragment : BaseFragment() {
 
     }
 
-    private fun setUpAdapter(list: List<ComicShort>) {
-        adapter = ComicListAdapter(list, { comic : ComicShort -> comicItemClicked(comic) })
+    private fun setUpAdapter(list: List<Comic>) {
+        adapter = ComicListAdapter(list, { comic : Comic -> comicItemClicked(comic) })
         comics_recyclerview.adapter = adapter
         comics_recyclerview.layoutManager = LinearLayoutManager(activity)
     }
 
-    private fun comicItemClicked(comic : ComicShort) {
+    private fun comicItemClicked(comic : Comic) {
         switchFragment(SingleComicFragment.newInstance(comic))
     }
 }

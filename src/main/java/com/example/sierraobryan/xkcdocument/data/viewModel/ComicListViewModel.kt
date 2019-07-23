@@ -5,16 +5,17 @@ import androidx.collection.ArraySet
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.sierraobryan.xkcdocument.data.model.Comic
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
-import com.example.sierraobryan.xkcdocument.data.model.ComicShort
+import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import com.example.sierraobryan.xkcdocument.data.repository.HistoryRepository
 
 class ComicListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val historyRepository : HistoryRepository
-    internal val allHistory: LiveData<List<ComicShort>>
-    internal val allFavorites: LiveData<List<ComicShort>>
-    val comic = MutableLiveData<ComicShort>()
+    internal val allHistory: LiveData<List<ComicWithFavorite>>
+    internal val allFavorites: LiveData<List<ComicWithFavorite>>
+    val comic = MutableLiveData<ComicWithFavorite>()
     val comicWithTagList : MutableLiveData<List<ComicWithTag>> = MutableLiveData()
     val tagList = MutableLiveData<Set<String>>()
 
@@ -24,22 +25,22 @@ class ComicListViewModel(application: Application) : AndroidViewModel(applicatio
         allFavorites = historyRepository.getAllFavorites()
     }
 
-    fun setCurrentComic(comicShort: ComicShort) {
-        this.comic.value = comicShort
+    fun setCurrentComic(comicWithFavorite: ComicWithFavorite) {
+        this.comic.value = comicWithFavorite
     }
 
     // favorite functions
-    fun insertOrUpdate(comicShort: ComicShort) {
-        historyRepository.insertOrUpdate(comicShort)
+    fun insertOrUpdate(comicWithFavorite: ComicWithFavorite) {
+        historyRepository.insertOrUpdate(comicWithFavorite)
     }
 
-    fun delete(comicShort: ComicShort) {
-        historyRepository.delete(comicShort)
+    fun delete(comicWithFavorite: ComicWithFavorite) {
+        historyRepository.delete(comicWithFavorite)
     }
 
-    fun isFavoriteFromId(comicShort: ComicShort): Boolean {
+    fun isFavoriteFromId(id : Int): Boolean {
         if (!allFavorites.value.isNullOrEmpty()) {
-            return allFavorites.value!!.any { comic -> comic.comicId == comicShort.comicId }
+            return allFavorites.value!!.any { comic -> comic.num == id }
         }
         return false
     }
@@ -68,21 +69,21 @@ class ComicListViewModel(application: Application) : AndroidViewModel(applicatio
         return comicsWithTags
     }
 
-    fun getAllTagsforId(comicId: Int) : List<String> {
+    fun getAllTagsForId(comicId: Int) : List<String> {
         val tagsForComic: MutableSet<String> = ArraySet()
         for (comic in comicWithTagList.value!!)  {
-            if (comicId == comic.comicId) {
+            if (comicId == comic.num) {
                 tagsForComic.add(comic.tag)
             }
         }
         return tagsForComic.toList()
     }
 
-    fun getAllComicsForTag(tag: String) : List<ComicShort> {
-        val tagsForComic: MutableSet<ComicShort> = ArraySet()
+    fun getAllComicsForTag(tag: String) : List<Comic> {
+        val tagsForComic: MutableSet<Comic> = ArraySet()
         for (comic in comicWithTagList.value!!)  {
             if (tag == comic.tag) {
-                tagsForComic.add(comic.toComicShort())
+                tagsForComic.add(comic.toComic())
             }
         }
         return tagsForComic.toList()
