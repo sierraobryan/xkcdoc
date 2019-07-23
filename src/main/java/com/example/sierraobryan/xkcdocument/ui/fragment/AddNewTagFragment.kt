@@ -12,8 +12,10 @@ import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.ui.activity.MainActivity
+import com.example.sierraobryan.xkcdocument.utils.displayTagList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_tag.*
+import kotlinx.android.synthetic.main.fragment_single_comic.*
 
 class AddNewTagFragment : BaseFragment() {
 
@@ -48,7 +50,8 @@ class AddNewTagFragment : BaseFragment() {
         comic = this.arguments!!.get(Constants.COMIC_KEY) as Comic
         listOfTags = comicLisViewModel.getAllTagsForId(comic.num)
 
-        current_tags.text = displayTagList(listOfTags)
+        displayTagList(listOfTags)?.let {
+            current_tags.text =  it } ?: run { current_tags.text =  resources.getString(R.string.no_tags) }
         save_button.setOnClickListener { save() }
 
     }

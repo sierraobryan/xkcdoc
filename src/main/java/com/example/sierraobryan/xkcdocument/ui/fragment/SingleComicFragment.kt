@@ -1,6 +1,7 @@
 package com.example.sierraobryan.xkcdocument.ui.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.example.sierraobryan.xkcdocument.data.model.Comic
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
+import com.example.sierraobryan.xkcdocument.utils.displayTagList
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_single_comic.*
@@ -114,7 +116,8 @@ class SingleComicFragment : BaseFragment() {
     private fun observeOnListOfTags() {
         comicLisViewModel.comicWithTagList.observe(this, Observer {
            if (::comic.isInitialized) {
-               tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(comic.num))
+               displayTagList(comicLisViewModel.getAllTagsForId(comic.num))?.let {
+                   tag_text.text =  it } ?: run { tag_text.text =  resources.getString(R.string.no_tags) }
            }
         })
     }
@@ -133,7 +136,8 @@ class SingleComicFragment : BaseFragment() {
     private fun setUpView(comic: ComicWithFavorite) {
         title_text.text = comic.safeTitle
         setFavoriteDrawable(comic.isFavorite)
-        tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(comic.num))
+        displayTagList(comicLisViewModel.getAllTagsForId(comic.num))?.let {
+            tag_text.text =  it } ?: run { tag_text.text =  resources.getString(R.string.no_tags) }
         random_image.contentDescription = comic.safeTitle
         try {
             Picasso.get().load(comic.img).fit().centerInside().into(random_image)

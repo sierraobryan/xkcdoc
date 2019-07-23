@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
+import com.example.sierraobryan.xkcdocument.utils.withinLastThreeDays
 import kotlinx.android.synthetic.main.row_item_history_comic.view.*
 import kotlinx.android.synthetic.main.row_item_tag.view.tag_for_list
 import java.lang.StringBuilder
@@ -57,17 +58,5 @@ class HistoryAdapter(private val clickListener: (ComicWithFavorite) -> Unit,
             itemView.setOnLongClickListener { longClickListener(comic) }
         }
 
-        private fun withinLastThreeDays(day: String, month: String, year: String) : Boolean {
-            try {
-                val comicDate = StringBuilder(day).append("/").append(month).append("/").append(year).toString()
-                val date : Date = SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(comicDate)
-                val currentDate: Calendar = Calendar.getInstance()
-                val currentDateMinusThree: Calendar = Calendar.getInstance()
-                currentDateMinusThree.add(Calendar.DAY_OF_YEAR, -7)
-                return !(date.before(currentDateMinusThree.time as Date) || date.after(currentDate.time as Date))
-            } catch (e : ParseException) {
-                return false
-            }
-        }
     }
 }

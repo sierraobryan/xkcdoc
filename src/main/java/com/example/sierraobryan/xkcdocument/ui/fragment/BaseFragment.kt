@@ -18,15 +18,4 @@ open class BaseFragment: Fragment() {
                 .commitNow()
     }
 
-    fun displayTagList(strings: List<String>): String {
-        if (strings.isNotEmpty()) {
-            val listOfTagsString: StringBuilder = java.lang.StringBuilder()
-            for (tag in strings) {
-                listOfTagsString.append(tag).append(", ")
-            }
-            return listOfTagsString.substring(0, listOfTagsString.length - 2).toString()
-        }
-        return resources.getString(R.string.no_tags)
-    }
-
 }
