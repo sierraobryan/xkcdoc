@@ -22,7 +22,6 @@ class XkcdViewModel(application: Application) : AndroidViewModel(application) {
     private val historyRepository : HistoryRepository
     internal val allHistory: LiveData<List<ComicWithFavorite>>
     internal val allFavorites: LiveData<List<ComicWithFavorite>>
-    val comic = MutableLiveData<ComicWithFavorite>()
 
     var singleImage: LiveData<ApiResponse<Comic>> = MutableLiveData()
     var imageFromId = MutableLiveData<Comic>()
@@ -70,10 +69,6 @@ class XkcdViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun cancelAllRequests() = coroutineContext.cancel()
-
-    fun setCurrentComic(comicWithFavorite: ComicWithFavorite) {
-        this.comic.value = comicWithFavorite
-    }
 
     // favorite functions
     fun insertOrUpdate(comicWithFavorite: ComicWithFavorite) {

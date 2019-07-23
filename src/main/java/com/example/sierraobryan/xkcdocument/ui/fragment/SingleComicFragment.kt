@@ -15,7 +15,6 @@ import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_single_comic.*
-import kotlinx.android.synthetic.main.fragment_welcome.*
 import kotlinx.android.synthetic.main.fragment_welcome.title_text
 
 class SingleComicFragment : BaseFragment() {
@@ -53,6 +52,7 @@ class SingleComicFragment : BaseFragment() {
         activity!!.app_bar_title.text = resources.getString(R.string.comic)
 
         NUM_OF_COMICS = xkcdViewModel.numberOfComics
+        favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
 
         val args = this.arguments
         args?.let {
@@ -61,11 +61,11 @@ class SingleComicFragment : BaseFragment() {
         } ?: run {
             // getImage(getRandom())
             fetchImage(getRandom())
+
         }
 
         // observeOnComic()
         observeOnComicCo()
-        observeOnComicShortForFavorite()
         observeOnListOfTags()
 
 
@@ -111,17 +111,6 @@ class SingleComicFragment : BaseFragment() {
         })
     }
 
-    private fun observeOnComicShortForFavorite() {
-        xkcdViewModel.comic.observe(this, Observer {
-            if (::comic.isInitialized) {
-                if (it.isFavorite) {
-                    favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
-                }
-                xkcdViewModel.insertOrUpdate(comic)
-            }
-        })
-    }
-
     private fun observeOnListOfTags() {
         comicLisViewModel.comicWithTagList.observe(this, Observer {
            if (::comic.isInitialized) {
@@ -139,11 +128,11 @@ class SingleComicFragment : BaseFragment() {
     private fun setComic(comic: Comic) {
         this.comic = comic.toComicWithFavorite()
         this.comic.isFavorite = xkcdViewModel.isFavoriteFromId(comic.num)
-        xkcdViewModel.setCurrentComic(this.comic)
     }
 
     private fun setUpView(comic: ComicWithFavorite) {
         title_text.text = comic.safeTitle
+        setFavoriteDrawable(comic.isFavorite)
         tag_text.text = displayTagList(comicLisViewModel.getAllTagsForId(comic.num))
         random_image.contentDescription = comic.safeTitle
         Picasso.get().load(comic.img).fit().centerInside().into(random_image)
@@ -152,16 +141,21 @@ class SingleComicFragment : BaseFragment() {
     private fun makeFavorite() {
         if (::comic.isInitialized) {
             comic.isFavorite = !comic.isFavorite
-            if (comic.isFavorite) {
-                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
-            } else {
-                favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
-            }
+            setFavoriteDrawable(comic.isFavorite)
             xkcdViewModel.insertOrUpdate(comic)
         }
 
     }
 
+    private fun setFavoriteDrawable(isFavorite: Boolean) {
+        if (isFavorite) {
+            favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_black_24dp))
+        } else {
+            favorite_button.setImageDrawable(resources.getDrawable(R.drawable.ic_favorite_border_black_24dp))
+        }
+    }
+
     private fun getRandom() = (Math.random() * NUM_OF_COMICS).toInt()
+    private fun get96() = 96
 
 }
