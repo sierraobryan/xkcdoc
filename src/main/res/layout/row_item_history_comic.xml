@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="16dp"
         android:textSize="16sp"
         android:layout_toEndOf="@id/favorite"
@@ -32,13 +32,13 @@
         android:id="@+id/new_comic_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
+        android:textSize="12sp"
         android:textColor="@color/colorAccent"
         android:layout_toEndOf="@id/tag_for_list"
         android:layout_alignBottom="@id/tag_for_list"
-        tools:text="@string/new_comic"
+        android:text="@string/new_comic"
         />
 
     <TextView
