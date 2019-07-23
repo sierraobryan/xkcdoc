@@ -63,7 +63,7 @@ class HistoryAdapter(private val clickListener: (ComicWithFavorite) -> Unit,
                 val date : Date = SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(comicDate)
                 val currentDate: Calendar = Calendar.getInstance()
                 val currentDateMinusThree: Calendar = Calendar.getInstance()
-                currentDateMinusThree.add(Calendar.DAY_OF_YEAR, -3)
+                currentDateMinusThree.add(Calendar.DAY_OF_YEAR, -7)
                 return !(date.before(currentDateMinusThree.time as Date) || date.after(currentDate.time as Date))
             } catch (e : ParseException) {
                 return false
