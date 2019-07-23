@@ -2,11 +2,27 @@
 
 - general Clean up 
   - <s>Stop passing around comic tag</s>, <s>use favorite comic for everything</s>, do some renaming because the name sucks, a lot of similar code between those lists and adpapers so combine some of that 
+- <b>Testing</b>
 - <b>ignore case on tag</b> 
 - <s>app bar things, need some title,</s> maybe a back button, <s>maybe an icon</s>
 - <b>Add search bar to the browse fragment to search for tags </b>
 - clear history 
+- coroutines?
+- DI : Dagger 2
 - <s>save favorites locally</s>
 - Use PageViewer (2!) in single comic view - now sure how well this will work with fast swiping since it has to make a service call each time
+- Could be fun (and prettier) to do a grid recyclerview layout instead of linear (would need to add the link to the ComicShort and Comic Tag objects) 
+- History should be ordered by date
+- Maybe need to refactor with ComicShort, ComicShortForHistory, and ComicShortWithTag
+  - ComicShort(title, id) -> might be about to just pass around the id and skip this all together? 
+  - ComicShortForHistory(title, id, link, isFavorite, timestamp)
+  - ComicShortWithTag(title, id, link?, tag, timestamp)
+  - Note: no nesting objects because they don't play as nice with room or at least it's not as <i>easy</i> 
+  - Note: link for potential Gridview Layout Manager
+- Might have gone a little heavy handed with the observing 
 - <s>Add error screens (ie, no favorites images)</s>
 - Add loading screen for images 
+- Add go to specific ID functionality
+- Fun: add endorsements to tags and then order by endorsements when showing tags 
+- cache the first comic so as not to make that network call everytime 
+  - Put an indication that it is new in the history 
