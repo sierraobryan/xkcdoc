@@ -35,7 +35,10 @@ class HistoryAndFavoritesFragment : BaseFragment() {
             super.onActivityCreated(savedInstanceState)
             activity!!.app_bar_title.text = resources.getString(R.string.your_comics)
 
-            val fragmentAdapter = HistoryAndFavoritesPagerAdapter(childFragmentManager)
+            profileViewModel.isGrid.value?.let { isGrid = it }
+            toggle.isChecked = isGrid
+
+            val fragmentAdapter = HistoryAndFavoritesPagerAdapter(childFragmentManager, isGrid)
             viewpager_main.adapter = fragmentAdapter
             tabs_main.setupWithViewPager(viewpager_main)
 
@@ -46,7 +49,7 @@ class HistoryAndFavoritesFragment : BaseFragment() {
     private fun setCompactSwitch() {
         toggle.setOnCheckedChangeListener { _, b ->
             profileViewModel.isGrid(b)
-            if (!b) {
+            if (b) {
                 switchRecyclerViewLayout(HistoryGridFragment.newInstance())
                 switchRecyclerViewLayout(FavoriteGridFragment.newInstance())
             } else {
