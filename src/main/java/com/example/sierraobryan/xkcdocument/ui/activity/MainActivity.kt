@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
+import com.example.sierraobryan.xkcdocument.data.viewModel.ProfileViewModel
 import com.example.sierraobryan.xkcdocument.data.viewModel.XkcdViewModel
 import com.example.sierraobryan.xkcdocument.ui.fragment.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,11 +17,9 @@ import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var PATH: String = "comics"
-
     private lateinit var xkcdViewModel: XkcdViewModel
     private lateinit var comicListViewModel: ComicListViewModel
-    private lateinit var databaseReference: DatabaseReference
+    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         xkcdViewModel = ViewModelProviders.of(this).get(XkcdViewModel::class.java)
         comicListViewModel = ViewModelProviders.of(this).get(ComicListViewModel::class.java)
-        setUpDataBase()
-
+        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
 
     }
 
@@ -68,28 +66,28 @@ class MainActivity : AppCompatActivity() {
             .commitNow()
     }
 
-    private fun setUpDataBase() {
-        databaseReference = FirebaseDatabase.getInstance().reference
-        databaseReference.child("comics").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@MainActivity,
-                        "Database error: $databaseError.message", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                comicListViewModel.setComicTagList(dataSnapshot.children.mapNotNull { it.getValue<ComicWithTag>(ComicWithTag::class.java) })
-
-            }
-
-        })
-
-    }
-
-    fun addTagToDatabase(comicWithTag: ComicWithTag) {
-        val key = databaseReference.child(PATH).push().key
-        key?.let {
-            databaseReference.child(PATH).child(System.currentTimeMillis().toString()).setValue(comicWithTag)
-
-        }
-    }
+//    private fun setUpDataBase() {
+//        databaseReference = FirebaseDatabase.getInstance().reference
+//        databaseReference.child("comics").addValueEventListener(object : ValueEventListener {
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                Toast.makeText(this@MainActivity,
+//                        "Database error: $databaseError.message", Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                comicListViewModel.setComicTagList(dataSnapshot.children.mapNotNull { it.getValue<ComicWithTag>(ComicWithTag::class.java) })
+//
+//            }
+//
+//        })
+//
+//    }
+//
+//    fun addTagToDatabase(comicWithTag: ComicWithTag) {
+//        val key = databaseReference.child(PATH).push().key
+//        key?.let {
+//            databaseReference.child(PATH).child(System.currentTimeMillis().toString()).setValue(comicWithTag)
+//
+//        }
+//    }
 }

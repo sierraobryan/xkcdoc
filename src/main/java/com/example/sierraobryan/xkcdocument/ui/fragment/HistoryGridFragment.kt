@@ -1,20 +1,19 @@
 package com.example.sierraobryan.xkcdocument.ui.fragment
 
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
-import com.example.sierraobryan.xkcdocument.ui.adapter.HistoryListAdapter
+import com.example.sierraobryan.xkcdocument.ui.adapter.HistoryGridAdapter
 import kotlinx.android.synthetic.main.fragment_fravorite.*
-import kotlinx.android.synthetic.main.fragment_fravorite.error_layout
 
-class HistoryListFragment : HistoryBaseFragment() {
+class HistoryGridFragment : HistoryBaseFragment() {
 
     companion object {
-        fun newInstance() = HistoryListFragment()
+        fun newInstance() = HistoryGridFragment()
     }
 
-    private val adapter: HistoryListAdapter by lazy {
-        HistoryListAdapter({ comic : ComicWithFavorite -> comicItemClicked(comic) },
+    private val adapter: HistoryGridAdapter by lazy {
+        HistoryGridAdapter({ comic : ComicWithFavorite -> comicItemClicked(comic) },
                 { comicWithFavorite : ComicWithFavorite -> comicItemLongClicked(comicWithFavorite) })
     }
 
@@ -23,7 +22,7 @@ class HistoryListFragment : HistoryBaseFragment() {
         favorite_recyclerview.visibility = View.VISIBLE
         error_layout.visibility = View.GONE
         favorite_recyclerview.adapter = adapter
-        favorite_recyclerview.layoutManager = LinearLayoutManager(activity)
+        favorite_recyclerview.layoutManager = GridLayoutManager(activity, 3)
     }
 
     override fun setAdapterComics(comics: List<ComicWithFavorite>) {

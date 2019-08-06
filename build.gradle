@@ -73,6 +73,9 @@ dependencies {
     // work
     implementation "androidx.work:work-runtime-ktx:$work_version"
 
+    // flexlayout
+    implementation 'com.google.android:flexbox:1.1.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

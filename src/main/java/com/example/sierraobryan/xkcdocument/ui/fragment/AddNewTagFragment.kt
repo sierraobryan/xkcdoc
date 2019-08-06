@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.sierraobryan.xkcdocument.Constants
 import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.Comic
-import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
-import com.example.sierraobryan.xkcdocument.data.model.ComicWithTag
 import com.example.sierraobryan.xkcdocument.data.viewModel.ComicListViewModel
-import com.example.sierraobryan.xkcdocument.ui.activity.MainActivity
 import com.example.sierraobryan.xkcdocument.utils.displayTagList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_tag.*
-import kotlinx.android.synthetic.main.fragment_single_comic.*
 
 class AddNewTagFragment : BaseFragment() {
 
@@ -32,7 +29,7 @@ class AddNewTagFragment : BaseFragment() {
     private val comicLisViewModel: ComicListViewModel by lazy {
         ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
     }
-    private lateinit var listOfTags: List<String>
+    private lateinit var listOfTags: MutableList<String>
     private lateinit var comic: Comic
 
     override fun onCreateView(
@@ -48,17 +45,22 @@ class AddNewTagFragment : BaseFragment() {
         activity!!.app_bar_title.text = resources.getString(R.string.add_tag)
 
         comic = this.arguments!!.get(Constants.COMIC_KEY) as Comic
-        listOfTags = comicLisViewModel.getAllTagsForId(comic.num)
 
-        displayTagList(listOfTags)?.let {
-            current_tags.text =  it } ?: run { current_tags.text =  resources.getString(R.string.no_tags) }
-        save_button.setOnClickListener { save() }
+        comicLisViewModel.getComicWithID(comic)
+
+        comicLisViewModel.comic.observe(this, Observer {
+            listOfTags = it.tags
+            displayTagList(it.tags)?.let {
+                current_tags.text =  it } ?: run { current_tags.text =  resources.getString(R.string.no_tags) }
+            save_button.setOnClickListener { save() }
+        })
 
     }
 
     private fun save() {
         val tag = new_tag.text.toString()
-        (activity as MainActivity).addTagToDatabase(comic.toComicWithTag(tag))
+        listOfTags.add(tag)
+        comicLisViewModel.addTagToDatabase(comic.toComicWithTag(listOfTags), tag)
         removeFragment(this)
     }
 }

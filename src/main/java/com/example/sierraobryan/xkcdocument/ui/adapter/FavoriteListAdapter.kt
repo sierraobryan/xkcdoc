@@ -8,9 +8,9 @@ import com.example.sierraobryan.xkcdocument.R
 import com.example.sierraobryan.xkcdocument.data.model.ComicWithFavorite
 import kotlinx.android.synthetic.main.row_item_tag.view.*
 
-class FavoriteAdapter(private val clickListener: (ComicWithFavorite) -> Unit,
-                      private val longClickListener: (ComicWithFavorite) -> Boolean) :
-        RecyclerView.Adapter<FavoriteAdapter.ComicViewHolder>() {
+class FavoriteListAdapter(private val clickListener: (ComicWithFavorite) -> Unit,
+                          private val longClickListener: (ComicWithFavorite) -> Boolean) :
+        RecyclerView.Adapter<FavoriteListAdapter.ComicViewHolder>() {
 
     private var comics = emptyList<ComicWithFavorite>()
 

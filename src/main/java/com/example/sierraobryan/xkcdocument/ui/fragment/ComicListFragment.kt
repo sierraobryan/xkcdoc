@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sierraobryan.xkcdocument.Constants
@@ -31,8 +32,7 @@ class ComicListFragment : BaseFragment() {
         ViewModelProviders.of(activity!!).get(ComicListViewModel::class.java)
     }
     private lateinit var adapter: ComicListAdapter
-    private lateinit var listOfComics: List<Comic>
-    private var comicTag: String = "tag"
+    private var comicTag: String = "tags"
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +47,11 @@ class ComicListFragment : BaseFragment() {
         activity!!.app_bar_title.text = resources.getString(R.string.comics)
 
         comicTag = this.arguments!!.get(Constants.TAG_KEY) as String
-        listOfComics = viewModel.getAllComicsForTag(comicTag)
-        setUpAdapter(listOfComics)
+        viewModel.getComicsWithTag(comicTag)
+
+        viewModel.comicWithTagList.observe(this, Observer {
+            setUpAdapter(it)
+        })
 
     }
 

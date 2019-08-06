@@ -24,8 +24,11 @@
     <string name="no_favorites">no favorites ):</string>
     <string name="no_history">no browsing history here</string>
     <string name="date_viewed">Viewed on: </string>
+    <string name="viewed">Viewed: </string>
     <string name="history">history</string>
     <string name="new_comic">New!</string>
     <string name="are_you_sure">Are you sure you want to remove this comic from your favorites?</string>
     <string name="are_you_sure_from_history">Are you sure you want to remove this comic from your history? (It will also remove it from your favorites)</string>
+    <string name="grid_layout">Grid Layout</string>
+    <string name="list_layout">List Layout</string>
 </resources>

@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class Comic(
-    val alt: String,
-    val day: String,
-    val img: String,
-    val link: String,
-    val month: String,
-    val news: String,
-    val num: Int,
+    val alt: String = "",
+    val day: String = "",
+    val img: String = "",
+    val link: String = "",
+    val month: String = "",
+    val news: String = "",
+    val num: Int = 0,
     @SerializedName("safe_title")
-    val safeTitle: String,
-    val title: String,
-    val transcript: String,
-    val year: String) : Serializable {
+    val safeTitle: String = "",
+    val title: String = "",
+    val transcript: String = "",
+    val year: String = "") : Serializable {
 
     fun toComicWithFavorite(isFavorite:Boolean) : ComicWithFavorite {
         return ComicWithFavorite(this.alt,
@@ -46,7 +46,7 @@ class Comic(
                 this.year)
     }
 
-    fun toComicWithTag(tag : String) : ComicWithTag {
+    fun toComicWithTag(tags : List<String>) : ComicWithTag {
         return ComicWithTag(this.alt,
                 this.day,
                 this.img,
@@ -58,6 +58,6 @@ class Comic(
                 this.title,
                 this.transcript,
                 this.year,
-                tag)
+                tags as MutableList<String>)
     }
 }

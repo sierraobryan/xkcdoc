@@ -3,7 +3,7 @@ package com.example.sierraobryan.xkcdocument.data.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class ComicWithTag(
+class ComicWithTagFromDatabase(
         val alt: String = "",
         val day: String = "",
         val img: String = "",
@@ -16,25 +16,12 @@ class ComicWithTag(
         val title: String  = "",
         val transcript: String  = "",
         val year: String = "",
-        var tags: MutableList<String> = mutableListOf<String>()
+        var tags: Map<String, String> = hashMapOf()
 ) : Serializable {
 
-    fun toComic() : Comic {
-        return Comic(this.alt,
-                this.day,
-                this.img,
-                this.link,
-                this.month,
-                this.news,
-                this.num,
-                this.safeTitle,
-                this.title,
-                this.transcript,
-                this.year)
-    }
-
-    fun convertToDataBase(): ComicWithTagFromDatabase {
-        return ComicWithTagFromDatabase(this.alt,
+    fun convertFromDataBase(): ComicWithTag {
+        val list = listOfValues(this.tags)
+        return ComicWithTag(this.alt,
                 this.day,
                 this.img,
                 this.link,
@@ -45,11 +32,10 @@ class ComicWithTag(
                 this.title,
                 this.transcript,
                 this.year,
-                tags.map { it to it }.toMap() )
+                list as MutableList<String>)
     }
 
-    fun addTag(tag: String) {
-        this.tags.add(tag)
-    }
+    private fun listOfValues(hashMap: Map<String, String>) = ArrayList(hashMap.values)
 
 }
+
